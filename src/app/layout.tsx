@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
+import { AmbientLight } from "@/components/ambient-light";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Onkar Yaglewad | Portfolio",
-  description: "Creative Engineer & Developer",
+  description: "Creative Engineer building the future.",
 };
-
-import { AmbientLight } from "@/components/ambient-light";
 
 export default function RootLayout({
   children,
@@ -21,10 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} dark scroll-smooth`}>
-      <body className="font-sans antialiased bg-black text-zinc-100 min-h-screen selection:bg-white/20">
-        <AmbientLight />
+    <html lang="en" className="dark">
+      <body className={cn(outfit.className, "bg-black text-white antialiased")}>
         <Header />
+        <AmbientLight />
         {children}
       </body>
     </html>
