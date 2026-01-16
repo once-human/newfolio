@@ -52,8 +52,8 @@ export default function WorkPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.02, rotate: Math.random() * 2 - 1 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ scale: 1.02, rotate: Math.random() * 2 - 1, transition: { type: "spring", stiffness: 170, damping: 26 } }}
+                            whileTap={{ scale: 0.98, transition: { type: "spring", stiffness: 170, damping: 26 } }}
                             className="group relative rounded-[2rem] bg-zinc-900/50 border border-white/5 overflow-hidden hover:border-white/10 aspect-[4/3] backdrop-blur-sm cursor-pointer"
                         >
                             {/* Background Gradient Blob */}

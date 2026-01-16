@@ -9,7 +9,6 @@ import {
     AnimatePresence,
     useMotionValue,
     useSpring,
-    useTransform,
     useMotionTemplate
 } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -22,6 +21,9 @@ const navItems = [
     { name: "More", href: "#more", isDropdown: true },
 ];
 
+// Apple-style "Fluid" Spring Config
+const IOS_SPRING = { type: "spring", mass: 1, stiffness: 170, damping: 26 } as const;
+
 function NavItem({ item }: { item: { name: string; href: string; isDropdown?: boolean } }) {
     const pathname = usePathname();
     const isActive = pathname === item.href;
@@ -33,25 +35,23 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
-                "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-500",
+                "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-300",
                 isActive ? "text-black" : "text-white/60 hover:text-white"
             )}
         >
             {isActive && (
                 <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)]"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] z-0"
+                    transition={IOS_SPRING}
                 />
             )}
 
-            {/* Soft Hover Glow - Removed discrete hoverTab in favor of spotlight, or kept subtle? */}
-            {/* Let's keep a very subtle distinct hover feel but softer */}
             <AnimatePresence>
                 {isHovered && !isActive && (
                     <motion.div
                         layoutId="hoverTab"
-                        className="absolute inset-0 rounded-full bg-white/5"
+                        className="absolute inset-0 rounded-full bg-white/5 z-0"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -60,7 +60,11 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
                 )}
             </AnimatePresence>
 
-            <span className="relative z-10 flex items-center gap-1 mix-blend-exclusion">
+            {/* Ensure text is above background layers */}
+            <span className={cn(
+                "relative z-10 flex items-center gap-1",
+                isActive ? "text-black font-semibold" : ""
+            )}>
                 {item.name}
                 {item.isDropdown && <ChevronDown className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100" />}
             </span>
@@ -69,51 +73,27 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
 }
 
 export function Header() {
-    // Magnetic / Tilt Logic
     const ref = useRef<HTMLDivElement>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - left;
-        const y = e.clientY - top;
-        const centerX = width / 2;
-        const centerY = height / 2;
-
-        mouseX.set(x);
-        mouseY.set(y);
-
-        // Tilt values
-        rotateX.set(((y - centerY) / centerY) * -10); // Max tilt -10deg to 10deg
-        rotateY.set(((x - centerX) / centerX) * 10);
+        const { left, top } = e.currentTarget.getBoundingClientRect();
+        mouseX.set(e.clientX - left);
+        mouseY.set(e.clientY - top);
     };
 
     const handleMouseLeave = () => {
         mouseX.set(0);
         mouseY.set(0);
-        rotateX.set(0);
-        rotateY.set(0);
     };
 
-    // Smooth physics for the tilt
-    const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
-    const rotateX = useSpring(0, springConfig);
-    const rotateY = useSpring(0, springConfig);
-
-    // Spotlight Gradient
-    const spotlightX = useSpring(0, { damping: 20, stiffness: 300 }); // Smoother tracking
-    const spotlightY = useSpring(0, { damping: 20, stiffness: 300 });
-
-    // Sync spotlight to mouse (can be optimized, but this works for simple container)
-    // Actually, let's use the motion values directly for template
     const spotlightBackground = useMotionTemplate`radial-gradient(150px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.1), transparent 80%)`;
 
-
     return (
-        <header className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 pointer-events-none perspective-[1000px]">
+        <header className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 pointer-events-none">
 
-            {/* Left: Logo (Floaty) */}
+            {/* Left: Logo */}
             <motion.div
                 className="flex items-center gap-4 pointer-events-auto"
                 initial={{ opacity: 0, x: -20 }}
@@ -138,13 +118,8 @@ export function Header() {
                 </div>
             </motion.div>
 
-            {/* Right: Pure Liquid Glass Pill with Magnetic Tilt */}
+            {/* Right: Flat Liquid Glass Pill (No Tilt) */}
             <motion.div
-                style={{
-                    rotateX,
-                    rotateY,
-                    transformStyle: "preserve-3d"
-                }}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 ref={ref}
@@ -153,8 +128,8 @@ export function Header() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
             >
-                {/* Main Pill Container: Crystalline Glass */}
-                <div className="relative hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] transition-colors duration-500 group-hover/pill:bg-white/[0.05] overflow-hidden">
+                {/* Main Pill Container */}
+                <div className="relative hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] overflow-hidden">
 
                     {/* Spotlight Effect Layer */}
                     <motion.div
@@ -169,25 +144,25 @@ export function Header() {
                         ))}
                     </nav>
 
-                    {/* Divider - subtle */}
+                    {/* Divider */}
                     <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
 
-                    {/* Theme Toggle - subtle */}
+                    {/* Theme Toggle */}
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        transition={IOS_SPRING}
                         className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group z-10"
                     >
                         <Moon className="w-4 h-4" />
                     </motion.button>
 
-                    {/* Book a Call Button - High Contrast Premium */}
+                    {/* Book a Call Button */}
                     <motion.div
                         className="z-10"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 15 }} // Softer bounce
+                        transition={IOS_SPRING}
                     >
                         <Link
                             href="#contact"
@@ -198,11 +173,11 @@ export function Header() {
                     </motion.div>
                 </div>
 
-                {/* Command Button - Matches Pill Aesthetic & Tilt */}
+                {/* Command Button */}
                 <motion.button
-                    whileHover={{ scale: 1.1, rotate: 10 }}
+                    whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    transition={IOS_SPRING}
                     className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.08] backdrop-blur-3xl shadow-lg ring-1 ring-white/[0.03] group z-10"
                 >
                     <Command className="w-5 h-5" />

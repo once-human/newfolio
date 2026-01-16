@@ -14,7 +14,7 @@ export function Hero() {
                 <motion.h1
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    transition={{ type: "spring", stiffness: 170, damping: 26, mass: 1.6 }}
                     className="text-[12vw] sm:text-[15vw] font-black leading-none tracking-tighter text-white mix-blend-difference select-none"
                 >
                     ONKAR
