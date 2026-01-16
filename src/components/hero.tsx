@@ -14,7 +14,7 @@ export function Hero() {
                 <motion.h1
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     className="text-[12vw] sm:text-[15vw] font-black leading-none tracking-tighter text-white mix-blend-difference select-none"
                 >
                     ONKAR
@@ -22,8 +22,14 @@ export function Hero() {
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.8 }}
+                    animate={{
+                        opacity: 1,
+                        y: [0, -10, 0]
+                    }}
+                    transition={{
+                        opacity: { duration: 0.8, delay: 0.2 },
+                        y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
+                    }}
                     className="mt-8 flex flex-col items-center gap-2"
                 >
                     <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">

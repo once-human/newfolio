@@ -34,7 +34,7 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
                 <motion.div
                     layoutId="activeTab"
                     className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)]"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.8 }}
                 />
             )}
 
@@ -46,7 +46,7 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                 )}
             </AnimatePresence>
@@ -109,23 +109,39 @@ export function Header() {
                     <div className="mx-4 h-5 w-[1px] bg-white/10" />
 
                     {/* Theme Toggle - subtle */}
-                    <button className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-all duration-300 relative group active:scale-95">
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group"
+                    >
                         <Moon className="w-4 h-4" />
-                    </button>
+                    </motion.button>
 
                     {/* Book a Call Button - High Contrast Premium */}
-                    <Link
-                        href="#contact"
-                        className="ml-2 relative group overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black transition-all duration-300 hover:scale-[1.03] active:scale-95 active:bg-neutral-200"
+                    <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                        Book a Call
-                    </Link>
+                        <Link
+                            href="#contact"
+                            className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
+                        >
+                            Book a Call
+                        </Link>
+                    </motion.div>
                 </div>
 
                 {/* Command Button - Matches Pill Aesthetic */}
-                <button className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.08] transition-all duration-300 backdrop-blur-3xl shadow-lg ring-1 ring-white/[0.03] group active:scale-95">
-                    <Command className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-                </button>
+                <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.08] backdrop-blur-3xl shadow-lg ring-1 ring-white/[0.03] group"
+                >
+                    <Command className="w-5 h-5" />
+                </motion.button>
             </motion.div>
         </header>
     );

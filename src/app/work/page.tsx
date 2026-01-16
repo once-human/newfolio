@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image"; // Assuming we might use images later, keeping import for now
+import { motion } from "framer-motion";
 
 const projects = [
     {
@@ -44,10 +46,15 @@ export default function WorkPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {projects.map((project, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            className="group relative rounded-[2rem] bg-zinc-900/50 border border-white/5 overflow-hidden hover:border-white/10 transition-all duration-500 aspect-[4/3] backdrop-blur-sm"
-                            style={{ animationDelay: `${index * 100}ms` }}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ scale: 1.02, rotate: Math.random() * 2 - 1 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="group relative rounded-[2rem] bg-zinc-900/50 border border-white/5 overflow-hidden hover:border-white/10 aspect-[4/3] backdrop-blur-sm cursor-pointer"
                         >
                             {/* Background Gradient Blob */}
                             <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-3xl`} />
@@ -61,7 +68,7 @@ export default function WorkPage() {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 

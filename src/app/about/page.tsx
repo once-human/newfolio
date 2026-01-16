@@ -1,5 +1,8 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function AboutPage() {
     return (
@@ -32,7 +35,12 @@ export default function AboutPage() {
 
                     <div className="grid gap-6">
                         {/* Card 1 */}
-                        <div className="group relative p-8 rounded-3xl bg-zinc-900/40 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 transition-all duration-500 backdrop-blur-xl">
+                        <motion.div
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                            className="group relative p-8 rounded-3xl bg-zinc-900/40 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 backdrop-blur-xl cursor-pointer"
+                        >
                             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <div className="relative z-10">
                                 <div className="flex justify-between items-start mb-4">
@@ -44,10 +52,15 @@ export default function AboutPage() {
                                     and optimizing performance for a global user base.
                                 </p>
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Card 2 */}
-                        <div className="group relative p-8 rounded-3xl bg-zinc-900/40 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 transition-all duration-500 backdrop-blur-xl">
+                        <motion.div
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                            className="group relative p-8 rounded-3xl bg-zinc-900/40 border border-white/5 hover:bg-zinc-900/60 hover:border-white/10 backdrop-blur-xl cursor-pointer"
+                        >
                             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <div className="relative z-10">
                                 <div className="flex justify-between items-start mb-4">
@@ -59,7 +72,7 @@ export default function AboutPage() {
                                     Collaborated with cross-functional teams to deliver robust solutions.
                                 </p>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
 
@@ -67,10 +80,16 @@ export default function AboutPage() {
                 <section className="flex justify-center pt-10 animate-in fade-in zoom-in duration-1000 delay-300">
                     <Link
                         href="#contact"
-                        className="group flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-bold text-lg hover:scale-105 active:scale-95 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
                     >
-                        Let&apos;s Work Together
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <motion.div
+                            className="group flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-bold text-lg shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                            Let&apos;s Work Together
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </motion.div>
                     </Link>
                 </section>
 
