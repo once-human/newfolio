@@ -2,15 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Command } from "lucide-react";
-
-const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "#about" },
-    { name: "Work", href: "#work" },
-    { name: "Blogs", href: "#blogs" },
-    { name: "More", href: "#more" },
-];
+import { Command, ChevronDown, Moon } from "lucide-react";
 
 export function Header() {
     return (
@@ -22,10 +14,7 @@ export function Header() {
                         OY
                     </span>
                 </Link>
-
-                {/* Separator */}
                 <div className="h-8 w-[1px] bg-zinc-800" />
-
                 <div className="hidden md:flex items-center gap-3">
                     <div className="relative flex h-2 w-2 items-center justify-center">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
@@ -38,33 +27,51 @@ export function Header() {
                 </div>
             </div>
 
-            {/* Center: Navigation Pill */}
-            <nav className="hidden md:flex items-center justify-center">
-                <div className="flex items-center gap-1 rounded-full bg-white/10 dark:bg-zinc-900/50 backdrop-blur-md border border-zinc-200/20 dark:border-white/10 p-1 shadow-sm">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.name}
-                            href={item.href}
-                            className="relative px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 transition-colors hover:text-black dark:hover:text-white"
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
-                </div>
-            </nav>
+            {/* Right Side: Consolidated Nav + Actions */}
+            <div className="flex items-center gap-4">
+                {/* Main Pill Container */}
+                <div className="hidden md:flex items-center rounded-full bg-zinc-900/90 border border-zinc-800 p-1.5 shadow-lg backdrop-blur-md">
 
-            {/* Right: Actions */}
-            <div className="flex items-center gap-3">
-                <button className="rounded-full p-2.5 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+                    {/* Navigation Links */}
+                    <nav className="flex items-center">
+                        <Link href="/" className="px-4 py-1.5 text-xs font-semibold text-black bg-white rounded-full transition-colors">
+                            Home
+                        </Link>
+                        <Link href="#about" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
+                            About
+                        </Link>
+                        <Link href="#work" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
+                            Work
+                        </Link>
+                        <Link href="#blogs" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
+                            Blogs
+                        </Link>
+                        <Link href="#more" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors flex items-center gap-1">
+                            More <ChevronDown className="w-3 h-3" />
+                        </Link>
+                    </nav>
+
+                    {/* Divider */}
+                    <div className="mx-2 h-4 w-[1px] bg-zinc-800" />
+
+                    {/* Theme Toggle */}
+                    <button className="p-2 text-zinc-400 hover:text-white transition-colors">
+                        <Moon className="w-4 h-4" />
+                    </button>
+
+                    {/* Book a Call Button */}
+                    <Link
+                        href="#contact"
+                        className="ml-2 flex items-center rounded-full bg-zinc-700/50 hover:bg-zinc-700 border border-zinc-600 px-4 py-1.5 text-xs font-semibold text-white transition-colors"
+                    >
+                        Book a Call
+                    </Link>
+                </div>
+
+                {/* Command Button (Outside the pill) */}
+                <button className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors backdrop-blur-md shadow-lg">
                     <Command className="w-4 h-4" />
                 </button>
-
-                <Link
-                    href="#contact"
-                    className="hidden sm:flex h-9 items-center rounded-full bg-zinc-900 dark:bg-white px-4 text-xs font-semibold text-white dark:text-black transition-colors hover:bg-zinc-700 dark:hover:bg-zinc-200"
-                >
-                    Book a Call
-                </Link>
             </div>
         </header>
     );
