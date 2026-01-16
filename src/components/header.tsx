@@ -27,29 +27,33 @@ function NavItem({ item }: { item: { name: string; href: string } }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
-                "relative px-5 py-2.5 text-sm font-medium transition-colors duration-200 block h-10 overflow-hidden", // Fixed height for mask
+                "relative px-5 py-2 text-sm font-medium transition-colors duration-200 block h-9 overflow-hidden rounded-full",
                 isActive ? "text-black" : "text-zinc-400"
             )}
         >
             {isActive && (
                 <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 rounded-full bg-white"
+                    className="absolute inset-0 bg-white"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
             )}
 
-            <div className="relative z-10 flex flex-col items-center">
+            {/* Text Container: rigidly sized and masked */}
+            <div className="relative z-10 h-full w-full flex items-center justify-center overflow-hidden">
                 <motion.div
-                    initial={{ y: 0 }}
-                    animate={{ y: isHovered ? -20 : 0 }}
-                    transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }} // buttery smooth
-                    className="flex flex-col items-center"
+                    initial={false}
+                    animate={{ y: isHovered ? "-100%" : "0%" }}
+                    transition={{ duration: 0.4, type: "spring", bounce: 0, damping: 15, stiffness: 150 }}
+                    className="flex flex-col items-center absolute top-0 left-0 right-0"
                 >
-                    <span className={cn("h-5 flex items-center justify-center", isActive ? "text-black" : "group-hover:text-white")}>
+                    {/* Default State */}
+                    <span className={cn("h-9 flex items-center justify-center whitespace-nowrap", isActive ? "text-black" : "group-hover:text-white")}>
                         {item.name} {isMore && <ChevronDown className="w-3.5 h-3.5 ml-1 inline-block" />}
                     </span>
-                    <span className={cn("h-5 flex items-center justify-center absolute top-5", isActive ? "text-black" : "text-white")}>
+
+                    {/* Hover State (Sliding in from bottom) */}
+                    <span className={cn("h-9 flex items-center justify-center whitespace-nowrap", isActive ? "text-black" : "text-white")}>
                         {item.name} {isMore && <ChevronDown className="w-3.5 h-3.5 ml-1 inline-block" />}
                     </span>
                 </motion.div>
