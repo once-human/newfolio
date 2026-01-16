@@ -27,14 +27,14 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
                 "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-300",
-                isActive ? "text-black" : "text-zinc-400 hover:text-white"
+                isActive ? "text-black" : "text-white/60 hover:text-white"
             )}
         >
             {isActive && (
                 <motion.div
                     layoutId="activeTab"
                     className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)]"
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
             )}
 
@@ -42,10 +42,10 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
                 {isHovered && !isActive && (
                     <motion.div
                         layoutId="hoverTab"
-                        className="absolute inset-0 rounded-full bg-white/5 border border-white/5 backdrop-blur-sm"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="absolute inset-0 rounded-full bg-white/5 backdrop-blur-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                     />
                 )}
@@ -53,7 +53,7 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
 
             <span className="relative z-10 flex items-center gap-1">
                 {item.name}
-                {item.isDropdown && <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100" />}
+                {item.isDropdown && <ChevronDown className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100" />}
             </span>
         </Link>
     );
@@ -71,7 +71,7 @@ export function Header() {
                 transition={{ duration: 0.5 }}
             >
                 <Link href="/" className="flex items-center gap-2 group">
-                    <span className="font-serif text-3xl font-bold tracking-tight text-white drop-shadow-lg">
+                    <span className="font-serif text-3xl font-bold tracking-tight text-white drop-shadow-2xl">
                         OY
                     </span>
                 </Link>
@@ -81,22 +81,22 @@ export function Header() {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
                     </div>
-                    <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-zinc-400 font-sans">
+                    <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans">
                         <span>Creative Engineer</span>
-                        <span className="text-emerald-500 drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">Building The Future</span>
+                        <span className="text-emerald-500/80 drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">Building The Future</span>
                     </div>
                 </div>
             </motion.div>
 
-            {/* Right: Liquid Glass Pill */}
+            {/* Right: Pure Liquid Glass Pill */}
             <motion.div
                 className="flex items-center gap-4 pointer-events-auto"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
             >
-                {/* Main Pill Container */}
-                <div className="hidden md:flex items-center p-1 rounded-full bg-black/60 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] backdrop-blur-2xl ring-1 ring-white/5 transition-all duration-300 hover:ring-white/10 hover:bg-black/70">
+                {/* Main Pill Container: Crystalline Glass */}
+                <div className="hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] transition-all duration-500 hover:bg-white/[0.06] hover:ring-white/[0.08] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)]">
 
                     {/* Navigation Links */}
                     <nav className="flex items-center relative pl-1">
@@ -105,26 +105,25 @@ export function Header() {
                         ))}
                     </nav>
 
-                    {/* Divider */}
+                    {/* Divider - subtle */}
                     <div className="mx-4 h-5 w-[1px] bg-white/10" />
 
-                    {/* Theme Toggle */}
-                    <button className="p-3 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-all duration-300 relative group active:scale-95">
+                    {/* Theme Toggle - subtle */}
+                    <button className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-all duration-300 relative group active:scale-95">
                         <Moon className="w-4 h-4" />
                     </button>
 
-                    {/* Book a Call Button (Refined Gradient) */}
+                    {/* Book a Call Button - High Contrast Premium */}
                     <Link
                         href="#contact"
-                        className="ml-2 relative group overflow-hidden rounded-full bg-gradient-to-b from-zinc-700 to-zinc-900 px-6 py-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] border border-white/5 text-sm font-semibold text-zinc-200 transition-all active:scale-95"
+                        className="ml-2 relative group overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black transition-all duration-300 hover:scale-[1.03] active:scale-95 active:bg-neutral-200"
                     >
-                        <span className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         Book a Call
                     </Link>
                 </div>
 
-                {/* Command Button */}
-                <button className="flex h-12 w-12 items-center justify-center rounded-full bg-black/50 border border-white/10 text-zinc-400 hover:text-white hover:border-white/20 hover:bg-black/70 transition-all duration-300 backdrop-blur-md shadow-lg group active:scale-95">
+                {/* Command Button - Matches Pill Aesthetic */}
+                <button className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.08] transition-all duration-300 backdrop-blur-3xl shadow-lg ring-1 ring-white/[0.03] group active:scale-95">
                     <Command className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                 </button>
             </motion.div>
