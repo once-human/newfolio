@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Command, Moon } from "lucide-react";
+import { Command, Moon, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -19,6 +19,7 @@ function NavItem({ item }: { item: { name: string; href: string } }) {
     const pathname = usePathname();
     const isActive = pathname === item.href;
     const [isHovered, setIsHovered] = useState(false);
+    const isMore = item.name === "More";
 
     return (
         <Link
@@ -26,8 +27,8 @@ function NavItem({ item }: { item: { name: string; href: string } }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
-                "relative px-4 py-2 text-xs font-medium transition-colors duration-200",
-                isActive ? "text-black" : "text-zinc-400 hover:text-white"
+                "relative px-5 py-2.5 text-sm font-medium transition-colors duration-200 block h-10 overflow-hidden", // Fixed height for mask
+                isActive ? "text-black" : "text-zinc-400"
             )}
         >
             {isActive && (
@@ -37,17 +38,22 @@ function NavItem({ item }: { item: { name: string; href: string } }) {
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
             )}
-            {isHovered && !isActive && (
+
+            <div className="relative z-10 flex flex-col items-center">
                 <motion.div
-                    layoutId="hoverTab"
-                    className="absolute inset-0 rounded-full bg-white/10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                />
-            )}
-            <span className="relative z-10">{item.name}</span>
+                    initial={{ y: 0 }}
+                    animate={{ y: isHovered ? -20 : 0 }}
+                    transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }} // buttery smooth
+                    className="flex flex-col items-center"
+                >
+                    <span className={cn("h-5 flex items-center justify-center", isActive ? "text-black" : "group-hover:text-white")}>
+                        {item.name} {isMore && <ChevronDown className="w-3.5 h-3.5 ml-1 inline-block" />}
+                    </span>
+                    <span className={cn("h-5 flex items-center justify-center absolute top-5", isActive ? "text-black" : "text-white")}>
+                        {item.name} {isMore && <ChevronDown className="w-3.5 h-3.5 ml-1 inline-block" />}
+                    </span>
+                </motion.div>
+            </div>
         </Link>
     );
 }
@@ -99,7 +105,7 @@ export function Header() {
                     {/* Book a Call Button */}
                     <Link
                         href="#contact"
-                        className="ml-2 flex items-center rounded-full bg-white text-black px-5 py-2 text-xs font-bold transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]"
+                        className="ml-2 flex items-center rounded-full bg-white text-black px-5 py-2.5 text-xs font-bold transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]"
                     >
                         Book a Call
                     </Link>
