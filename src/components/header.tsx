@@ -1,14 +1,62 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Command, ChevronDown, Moon } from "lucide-react";
+import { Command, Moon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Work", href: "/work" },
+    { name: "Blogs", href: "/blogs" },
+    { name: "More", href: "#more" },
+];
+
+function NavItem({ item }: { item: { name: string; href: string } }) {
+    const pathname = usePathname();
+    const isActive = pathname === item.href;
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <Link
+            href={item.href}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={cn(
+                "relative px-4 py-2 text-xs font-medium transition-colors duration-200",
+                isActive ? "text-black" : "text-zinc-400 hover:text-white"
+            )}
+        >
+            {isActive && (
+                <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 rounded-full bg-white"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+            )}
+            {isHovered && !isActive && (
+                <motion.div
+                    layoutId="hoverTab"
+                    className="absolute inset-0 rounded-full bg-white/10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                />
+            )}
+            <span className="relative z-10">{item.name}</span>
+        </Link>
+    );
+}
 
 export function Header() {
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12">
+        <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 pointer-events-none">
             {/* Left: Logo + Tagline */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 pointer-events-auto">
                 <Link href="/" className="flex items-center gap-2 group">
                     <span className="font-serif text-2xl font-bold tracking-tight text-white">
                         OY
@@ -28,49 +76,38 @@ export function Header() {
             </div>
 
             {/* Right Side: Consolidated Nav + Actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 pointer-events-auto">
                 {/* Main Pill Container */}
-                <div className="hidden md:flex items-center rounded-full bg-zinc-900/90 border border-zinc-800 p-1.5 shadow-lg backdrop-blur-md">
+                <div className="hidden md:flex items-center rounded-full bg-zinc-900/80 border border-white/10 p-1.5 shadow-2xl backdrop-blur-2xl ring-1 ring-white/5">
 
                     {/* Navigation Links */}
-                    <nav className="flex items-center">
-                        <Link href="/" className="px-4 py-1.5 text-xs font-semibold text-black bg-white rounded-full transition-colors">
-                            Home
-                        </Link>
-                        <Link href="#about" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
-                            About
-                        </Link>
-                        <Link href="#work" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
-                            Work
-                        </Link>
-                        <Link href="#blogs" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
-                            Blogs
-                        </Link>
-                        <Link href="#more" className="px-4 py-1.5 text-xs font-medium text-zinc-400 hover:text-white transition-colors flex items-center gap-1">
-                            More <ChevronDown className="w-3 h-3" />
-                        </Link>
+                    <nav className="flex items-center relative gap-1">
+                        {navItems.map((item) => (
+                            <NavItem key={item.name} item={item} />
+                        ))}
                     </nav>
 
                     {/* Divider */}
-                    <div className="mx-2 h-4 w-[1px] bg-zinc-800" />
+                    <div className="mx-3 h-4 w-[1px] bg-white/10" />
 
                     {/* Theme Toggle */}
-                    <button className="p-2 text-zinc-400 hover:text-white transition-colors">
-                        <Moon className="w-4 h-4" />
+                    <button className="p-2 text-zinc-400 hover:text-white transition-colors relative group">
+                        <span className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+                        <Moon className="w-4 h-4 relative z-10" />
                     </button>
 
                     {/* Book a Call Button */}
                     <Link
                         href="#contact"
-                        className="ml-2 flex items-center rounded-full bg-zinc-700/50 hover:bg-zinc-700 border border-zinc-600 px-4 py-1.5 text-xs font-semibold text-white transition-colors"
+                        className="ml-2 flex items-center rounded-full bg-white text-black px-5 py-2 text-xs font-bold transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]"
                     >
                         Book a Call
                     </Link>
                 </div>
 
                 {/* Command Button (Outside the pill) */}
-                <button className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors backdrop-blur-md shadow-lg">
-                    <Command className="w-4 h-4" />
+                <button className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors backdrop-blur-md shadow-lg group">
+                    <Command className="w-4 h-4 group-hover:scale-110 transition-transform" />
                 </button>
             </div>
         </header>
