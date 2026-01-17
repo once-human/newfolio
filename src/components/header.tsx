@@ -82,7 +82,8 @@ export function Header() {
     const mouseY = useMotionValue(0);
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
-    const [open, setOpen] = useState(false);
+    const pathname = usePathname();
+    const isHome = pathname === "/";
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         setIsScrolled(latest > 100);
@@ -108,26 +109,31 @@ export function Header() {
 
                 {/* Left: Dynamic Profile / Label */}
                 {/* Left: Dynamic Profile / Label */}
+                {/* Left: Dynamic Profile / Label */}
                 <motion.div
                     className="flex items-center pointer-events-auto justify-self-start"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    {/* Dynamic Image Slot - Collapsible Width */}
+                    {/* Dynamic Image Slot */}
                     <motion.div
-                        initial={{ width: 0, opacity: 0, marginRight: 0 }}
-                        animate={{
+                        initial={isHome ? { width: 0, opacity: 0, marginRight: 0 } : { width: 40, opacity: 1, marginRight: 0 }}
+                        animate={isHome ? {
                             width: isScrolled ? 40 : 0,
                             opacity: isScrolled ? 1 : 0,
                             marginRight: isScrolled ? 16 : 0
+                        } : {
+                            width: 40,
+                            opacity: 1,
+                            marginRight: 16
                         }}
                         transition={LIQUID_SPRING}
                         className="relative flex items-center justify-center overflow-hidden"
                     >
                         <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm">
-                            <AnimatePresence>
-                                {isScrolled && (
+                            <AnimatePresence mode="wait">
+                                {(isScrolled || !isHome) && (
                                     <motion.img
                                         layoutId="hero-profile-img"
                                         initial={{ opacity: 0, scale: 0 }}
@@ -155,16 +161,27 @@ export function Header() {
                         className="bg-white/10"
                     />
 
+                    {/* Label Container - Collapses on Non-Home Pages until scroll */}
                     <motion.div
-                        animate={{ x: 0 }}
+                        initial={!isHome ? { width: 0, opacity: 0, paddingLeft: 0 } : { width: "auto", opacity: 1, paddingLeft: 0 }}
+                        animate={!isHome ? {
+                            width: isScrolled ? "auto" : 0,
+                            opacity: isScrolled ? 1 : 0,
+                            paddingLeft: isScrolled ? 16 : 0 // Add padding when appearing next to separator
+                        } : {
+                            width: "auto",
+                            opacity: 1,
+                            x: 0,
+                            paddingLeft: isScrolled ? 16 : 0 // Add padding when pushed by image
+                        }}
                         transition={LIQUID_SPRING}
-                        className={`hidden md:flex items-center gap-3 py-1.5 rounded-xl transition-all duration-300 ${isScrolled ? "pl-4 bg-black/20 backdrop-blur-md" : "pl-0"}`}
+                        className={`hidden md:flex items-center gap-3 py-1.5 rounded-xl transition-all duration-300 overflow-hidden ${isScrolled ? "bg-black/20 backdrop-blur-md" : ""}`}
                     >
-                        <div className="relative flex h-2 w-2 items-center justify-center">
+                        <div className="relative flex h-2 w-2 items-center justify-center shrink-0">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></span>
                         </div>
-                        <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans">
+                        <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans whitespace-nowrap">
                             <span>Product Engineer</span>
                             <span className="text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]">Building The Future</span>
                         </div>
