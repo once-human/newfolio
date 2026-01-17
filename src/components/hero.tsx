@@ -28,7 +28,7 @@ export function Hero() {
                             transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                             src="/assets/me.png"
                             alt="Profile"
-                            className="absolute z-0 w-[0.4em] h-[0.4em] object-cover rounded-full grayscale-[0.3] hover:grayscale-0 transition-all duration-500 ml-[0.04em] mt-[0.02em]"
+                            className="absolute z-0 w-[0.4em] h-[0.4em] object-cover rounded-full transition-all duration-500 ml-[0.04em] mt-[0.02em] hover:scale-[1.8]"
                         />
                     </span>
                     NKA
