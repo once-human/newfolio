@@ -97,7 +97,7 @@ export function Header() {
         mouseY.set(0);
     };
 
-    const spotlightBackground = useMotionTemplate`radial-gradient(150px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.1), transparent 80%)`;
+    const spotlightBackground = useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.15), transparent 80%)`;
 
     return (
         <header className="fixed top-6 left-0 right-0 z-50 grid grid-cols-[auto_1fr_auto] items-center px-6 md:px-12 pointer-events-none gap-4">
@@ -169,7 +169,7 @@ export function Header() {
                     ref={ref}
                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                     transition={IOS_SPRING}
-                    className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] overflow-hidden group/pill"
+                    className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] hover:ring-white/[0.05] overflow-hidden group/pill transition-all duration-500"
                 >
                     {/* Spotlight Effect Layer */}
                     <motion.div
@@ -189,10 +189,10 @@ export function Header() {
 
                     {/* Mail / Contact */}
                     <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
+                        whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                        whileTap={{ scale: 0.95 }}
                         transition={IOS_SPRING}
-                        className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group z-10"
+                        className="p-3 rounded-full text-white/50 hover:text-white relative group z-10"
                     >
                         <Mail className="w-4 h-4" />
                     </motion.button>
@@ -225,7 +225,7 @@ export function Header() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     transition={IOS_SPRING}
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.01] border border-white/[0.05] text-white/60 hover:text-white hover:bg-white/[0.05] backdrop-blur-3xl backdrop-saturate-150 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.02] group"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.01] border border-white/[0.05] text-white/60 hover:text-white hover:bg-white/[0.05] backdrop-blur-3xl backdrop-saturate-150 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.02] hover:ring-white/[0.05] group transition-all duration-500"
                 >
                     <Command className="w-5 h-5" />
                 </motion.button>
