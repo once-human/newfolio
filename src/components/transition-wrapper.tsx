@@ -74,7 +74,7 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
                     exit={ANIMATION_CONFIG.exit}
                     transition={TRANSITION_PROPS}
                     // Force grid placement
-                    className="col-start-1 row-start-1 min-h-screen bg-black w-full"
+                    className="col-start-1 row-start-1 min-h-screen w-full"
                 >
                     <FrozenRoute>{children}</FrozenRoute>
                 </motion.div>
