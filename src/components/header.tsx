@@ -82,6 +82,7 @@ export function Header() {
     const mouseY = useMotionValue(0);
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
+    const [open, setOpen] = useState(false);
     const pathname = usePathname();
     const isHome = pathname === "/";
 
@@ -163,19 +164,25 @@ export function Header() {
 
                     {/* Label Container - Collapses on Non-Home Pages until scroll */}
                     <motion.div
-                        initial={!isHome ? { width: 0, opacity: 0, paddingLeft: 0 } : { width: "auto", opacity: 1, paddingLeft: 0 }}
+                        layout
+                        initial={!isHome ? { width: 0, opacity: 0, x: -20 } : { width: "auto", opacity: 1, x: 0 }}
                         animate={!isHome ? {
                             width: isScrolled ? "auto" : 0,
                             opacity: isScrolled ? 1 : 0,
-                            paddingLeft: isScrolled ? 16 : 0 // Add padding when appearing next to separator
+                            x: isScrolled ? 0 : -20, // Slide in from left
+                            paddingLeft: isScrolled ? 16 : 0
                         } : {
                             width: "auto",
                             opacity: 1,
                             x: 0,
-                            paddingLeft: isScrolled ? 16 : 0 // Add padding when pushed by image
+                            paddingLeft: isScrolled ? 16 : 0
                         }}
-                        transition={LIQUID_SPRING}
-                        className={`hidden md:flex items-center gap-3 py-1.5 rounded-xl transition-all duration-300 overflow-hidden ${isScrolled ? "bg-black/20 backdrop-blur-md" : ""}`}
+                        transition={{
+                            ...LIQUID_SPRING,
+                            opacity: { duration: 0.4 }, // Faster fade
+                            width: { ...LIQUID_SPRING, stiffness: 100 } // Slightly looser width to avoid snap
+                        }}
+                        className={`hidden md:flex items-center gap-3 py-1.5 rounded-xl overflow-hidden ${isScrolled ? "bg-black/20 backdrop-blur-md" : ""}`}
                     >
                         <div className="relative flex h-2 w-2 items-center justify-center shrink-0">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
