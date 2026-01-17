@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { outfit } from "@/lib/fonts";
-import { FlaskConical, Link2, Monitor, BookOpen } from "lucide-react";
+import { FlaskConical, Link2, Monitor, Send } from "lucide-react";
 
 const subLinks = [
     {
@@ -21,10 +21,10 @@ const subLinks = [
         icon: Monitor,
     },
     {
-        name: "Guestbook",
-        description: "Sign my wall",
-        href: "/guestbook",
-        icon: BookOpen,
+        name: "Contact Me",
+        description: "Get in touch",
+        href: "/contact",
+        icon: Send,
     },
 ];
 
@@ -35,15 +35,29 @@ export function MoreMenu() {
             animate={{ opacity: 1, scale: 1, y: 30 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="absolute top-full right-0 mt-4 w-[600px] p-2 rounded-3xl bg-[#0A0A0A]/90 backdrop-blur-2xl border border-white/10 shadow-2xl z-50 overflow-hidden flex flex-row gap-2"
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[600px] p-2 rounded-3xl bg-[#0A0A0A]/90 backdrop-blur-2xl border border-white/10 shadow-2xl z-50 overflow-hidden flex flex-row gap-2 origin-top"
         >
             {/* Labs Card (Left) */}
             <Link
                 href="/labs"
                 className="group relative flex-1 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-2xl p-6 flex flex-col justify-end overflow-hidden hover:scale-[1.02] transition-transform duration-300"
             >
-                {/* Background Decor */}
-                <FlaskConical className="absolute top-[-20px] right-[-20px] w-48 h-48 text-white/10 rotate-12 group-hover:rotate-6 transition-transform duration-500" />
+                {/* Background Decor - Interactive Flask */}
+                <motion.div
+                    className="absolute top-[-20px] right-[-20px] text-white/10"
+                    animate={{
+                        rotate: [12, -5, 12],
+                        y: [0, -10, 0],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                >
+                    <FlaskConical className="w-48 h-48" />
+                </motion.div>
 
                 <div className="relative z-10">
                     <h3 className={cn(outfit.className, "text-2xl font-bold text-white mb-2")}>Labs</h3>
