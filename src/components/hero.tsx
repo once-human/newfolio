@@ -11,8 +11,12 @@ export function Hero() {
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
 
+    const hasScrolledRef = React.useRef(false);
+
     useMotionValueEvent(scrollY, "change", (latest) => {
-        setIsScrolled(latest > 100);
+        const scrolled = latest > 100;
+        setIsScrolled(scrolled);
+        if (scrolled) hasScrolledRef.current = true;
     });
 
     return (
@@ -35,8 +39,10 @@ export function Hero() {
                                 <motion.img
                                     layoutId="hero-profile-img"
                                     onClick={() => setIsExpanded(true)}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    // Initial Load: Scale 0.5 -> 1 (Zoom)
+                                    // Scroll Return: Scale 1 -> 1 (No Zoom, just Fade)
+                                    initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.4, ease: "easeOut" }}
                                     src="/assets/me.png"
                                     alt="Profile"
