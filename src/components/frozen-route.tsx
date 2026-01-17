@@ -1,26 +1,35 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
-import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useContext, useRef, useEffect, ReactNode } from "react";
+import { LayoutRouterContext, GlobalLayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useContext, useRef, ReactNode } from "react";
 
-// This component captures the LayoutRouterContext of the *current* route
-// and freezes it so that when the route changes, the *children* (which depend on this context)
+// This component captures the Router Contexts of the *current* route
+// and freezes them so that when the route changes, the *children* (which depend on these contexts)
 // can still render correctly during the exit animation.
+// We must freeze ALL relevant contexts to prevent leaks.
 export function FrozenRoute({ children }: { children: ReactNode }) {
-    const context = useContext(LayoutRouterContext);
-    const frozen = useRef(context).current;
+    const layoutContext = useContext(LayoutRouterContext);
+    const globalLayoutContext = useContext(GlobalLayoutRouterContext);
 
-    // We only freeze effectively if the context is available.
-    // Next.js App Router always provides this context, so frozen should be stable.
+    // Use refs to hold the initial values (from when this component first mounted/rendered with this key)
+    const frozenLayoutContext = useRef(layoutContext).current;
+    const frozenGlobalLayoutContext = useRef(globalLayoutContext).current;
 
-    if (!frozen) {
-        return <>{children}</>;
-    }
+    // Render with the FROZEN providers
+    // We nest them to ensure all consumers find the frozen values.
+
+    // Safe return if contexts are null (though they usually aren't in App Router)
+    if (!frozenLayoutContext) return <>{children}</>;
 
     return (
-        <LayoutRouterContext.Provider value={frozen}>
-            {children}
+        <LayoutRouterContext.Provider value={frozenLayoutContext}>
+            {frozenGlobalLayoutContext ? (
+                <GlobalLayoutRouterContext.Provider value={frozenGlobalLayoutContext}>
+                    {children}
+                </GlobalLayoutRouterContext.Provider>
+            ) : (
+                children
+            )}
         </LayoutRouterContext.Provider>
     );
 }
