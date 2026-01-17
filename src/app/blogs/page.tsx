@@ -1,6 +1,6 @@
 export default function BlogsPage() {
     return (
-        <main className="min-h-screen pt-32 px-6 md:px-12 bg-black text-white">
+        <main className="min-h-screen pt-32 px-6 md:px-12 text-white">
             <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in zoom-in duration-700">
                 <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-xl">
                     <span className="text-2xl">✍️</span>

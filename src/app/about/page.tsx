@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function AboutPage() {
     return (
-        <main className="min-h-screen pt-32 px-6 md:px-12 bg-black text-white selection:bg-emerald-500/30">
+        <main className="min-h-screen pt-32 px-6 md:px-12 text-white selection:bg-emerald-500/30">
             <div className="max-w-4xl mx-auto space-y-24 pb-20">
 
                 {/* Intro Section */}

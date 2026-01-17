@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function PrivacyPage() {
     return (
-        <main className="min-h-screen bg-black pt-32 pb-20 px-6 overflow-hidden">
+        <main className="min-h-screen pt-32 pb-20 px-6 overflow-hidden">
             <div className="max-w-[1000px] mx-auto relative z-10">
 
                 {/* Header */}

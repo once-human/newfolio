@@ -32,7 +32,7 @@ const projects = [
 
 export default function WorkPage() {
     return (
-        <main className="min-h-screen pt-32 px-6 md:px-12 bg-black text-white">
+        <main className="min-h-screen pt-32 px-6 md:px-12 text-white">
             <div className="max-w-6xl mx-auto space-y-16 pb-20">
 
                 <div className="space-y-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
