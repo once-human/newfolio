@@ -10,13 +10,22 @@ export function Hero() {
     const [isExpanded, setIsExpanded] = useState(false);
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
-
+    const [layoutId, setLayoutId] = useState<string | undefined>("hero-profile-img");
     const hasScrolledRef = React.useRef(false);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const scrolled = latest > 100;
-        setIsScrolled(scrolled);
-        if (scrolled) hasScrolledRef.current = true;
+        if (scrolled !== isScrolled) {
+            setIsScrolled(scrolled);
+            if (scrolled) {
+                hasScrolledRef.current = true;
+            } else {
+                // Return to Top: Break layout connection to force Fade In (instead of Fly)
+                setLayoutId(undefined);
+                // Re-arm connection after animation for next scroll down
+                setTimeout(() => setLayoutId("hero-profile-img"), 500);
+            }
+        }
     });
 
     return (
@@ -37,7 +46,7 @@ export function Hero() {
                         <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em]">
                             {!isScrolled && (
                                 <motion.img
-                                    layoutId="hero-profile-img"
+                                    layoutId={layoutId}
                                     onClick={() => setIsExpanded(true)}
                                     // Initial Load: Scale 0.5 -> 1 (Zoom)
                                     // Scroll Return: Scale 1 -> 1 (No Zoom, just Fade)
