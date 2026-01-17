@@ -65,7 +65,7 @@ export function Hero() {
                     transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                     className="mt-8 flex flex-col items-center gap-2"
                 >
-                    <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.26em] text-white/40">
+                    <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.3em] text-white/40">
                         <span>I Design And Build Products That</span>
                     </div>
                     <div className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal")}>
