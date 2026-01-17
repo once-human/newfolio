@@ -15,6 +15,7 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CommandMenu } from "./command-menu";
+import { MoreMenu } from "./more-menu";
 
 const navItems = [
     { name: "Home", href: "/" },
@@ -28,51 +29,69 @@ const navItems = [
 const IOS_SPRING = { type: "spring", mass: 1, stiffness: 170, damping: 26 } as const;
 const LIQUID_SPRING = { type: "spring", mass: 1, stiffness: 120, damping: 25 } as const;
 
-function NavItem({ item }: { item: { name: string; href: string; isDropdown?: boolean } }) {
+function NavItem({
+    item,
+    onHover,
+    isHovered
+}: {
+    item: { name: string; href: string; isDropdown?: boolean };
+    onHover: (name: string | null) => void;
+    isHovered: boolean;
+}) {
     const pathname = usePathname();
     const isActive = pathname === item.href;
-    const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <Link
-            href={item.href}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className={cn(
-                "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-300",
-                isActive ? "text-black" : "text-white/60 hover:text-white"
-            )}
+        <div
+            className="relative"
+            onMouseEnter={() => onHover(item.name)}
+            onMouseLeave={() => onHover(null)}
         >
-            {isActive && (
-                <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] z-0"
-                    transition={IOS_SPRING}
-                />
-            )}
-
-            <AnimatePresence>
-                {isHovered && !isActive && (
+            <Link
+                href={item.href}
+                className={cn(
+                    "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-300",
+                    isActive ? "text-black" : "text-white/60 hover:text-white"
+                )}
+            >
+                {isActive && (
                     <motion.div
-                        layoutId="hoverTab"
-                        className="absolute inset-0 rounded-full bg-white/5 z-0"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        layoutId="activeTab"
+                        className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] z-0"
+                        transition={IOS_SPRING}
                     />
                 )}
-            </AnimatePresence>
 
-            {/* Ensure text is above background layers */}
-            <span className={cn(
-                "relative z-10 flex items-center gap-1 transition-colors duration-500",
-                isActive ? "text-black" : "text-white/60 group-hover:text-white"
-            )}>
-                {item.name}
-                {item.isDropdown && <ChevronDown className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100" />}
-            </span>
-        </Link>
+                <AnimatePresence>
+                    {isHovered && !isActive && (
+                        <motion.div
+                            layoutId="hoverTab"
+                            className="absolute inset-0 rounded-full bg-white/5 z-0"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                        />
+                    )}
+                </AnimatePresence>
+
+                {/* Ensure text is above background layers */}
+                <span className={cn(
+                    "relative z-10 flex items-center gap-1 transition-colors duration-500",
+                    isActive ? "text-black" : "text-white/60 group-hover:text-white"
+                )}>
+                    {item.name}
+                    {item.isDropdown && <ChevronDown className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isHovered ? "rotate-180" : ""}`} />}
+                </span>
+            </Link>
+
+            {/* Dropdown Menu */}
+            <AnimatePresence>
+                {item.isDropdown && isHovered && (
+                    <MoreMenu />
+                )}
+            </AnimatePresence>
+        </div>
     );
 }
 
@@ -83,6 +102,7 @@ export function Header() {
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
     const [open, setOpen] = useState(false);
+    const [hoveredNav, setHoveredNav] = useState<string | null>(null);
     const pathname = usePathname();
     const isHome = pathname === "/";
 
@@ -142,8 +162,8 @@ export function Header() {
                                         exit={{ opacity: 0, scale: 0 }}
                                         transition={LIQUID_SPRING}
                                         src="/assets/me.png"
-                                        alt="Small Profile"
-                                        className="absolute w-8 h-8 object-cover rounded-full"
+                                        alt="Profile"
+                                        className="w-full h-full rounded-full object-cover grayscale"
                                     />
                                 )}
                             </AnimatePresence>
@@ -221,56 +241,69 @@ export function Header() {
                     animate={{ opacity: 1 }}
                     transition={LIQUID_SPRING}
                 >
-                    {/* Visual Glass Pill */}
-                    < motion.div
+                    {/* Visual Glass Pill Container - Allows Dropdown Overflow */}
+                    <div
                         onMouseMove={handleMouseMove}
                         onMouseLeave={handleMouseLeave}
-                        ref={ref}
-                        whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-                        transition={IOS_SPRING}
-                        className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] hover:ring-white/[0.05] overflow-hidden group/pill transition-all duration-500"
+                        className="relative group/pill"
                     >
-                        {/* Spotlight Effect Layer */}
-                        < motion.div
-                            className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
-                            style={{ background: spotlightBackground }}
-                        />
-
-                        {/* Navigation Links */}
-                        <nav className="flex items-center relative pl-1 z-10">
-                            {navItems.map((item) => (
-                                <NavItem key={item.name} item={item} />
-                            ))}
-                        </nav>
-
-                        {/* Divider */}
-                        <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
-
-                        {/* Mail / Contact */}
-                        <motion.button
-                            whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={IOS_SPRING}
-                            className="p-3 rounded-full text-white/50 hover:text-white relative group z-10"
-                        >
-                            <Mail className="w-4 h-4" />
-                        </motion.button>
-
-                        {/* Book a Call Button */}
+                        {/* Clipped Background & Border Layer */}
                         <motion.div
-                            className="z-10"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            ref={ref}
+                            whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                             transition={IOS_SPRING}
+                            className="absolute inset-0 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] hover:ring-white/[0.05] overflow-hidden transition-all duration-500"
                         >
-                            <Link
-                                href="#contact"
-                                className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
-                            >
-                                Book a Call
-                            </Link>
+                            {/* Spotlight Effect Layer */}
+                            < motion.div
+                                className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
+                                style={{ background: spotlightBackground }}
+                            />
                         </motion.div>
-                    </motion.div >
+
+                        {/* Content Container (On top of background) */}
+                        <div className="relative flex items-center p-1.5 z-10">
+                            {/* Navigation Links */}
+                            <nav className="flex items-center relative pl-1">
+                                {navItems.map((item) => (
+                                    <NavItem
+                                        key={item.name}
+                                        item={item}
+                                        onHover={setHoveredNav}
+                                        isHovered={hoveredNav === item.name}
+                                    />
+                                ))}
+                            </nav>
+
+                            {/* Divider */}
+                            <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
+
+                            {/* Mail / Contact */}
+                            <motion.button
+                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={IOS_SPRING}
+                                className="p-3 rounded-full text-white/50 hover:text-white relative group z-10"
+                            >
+                                <Mail className="w-4 h-4" />
+                            </motion.button>
+
+                            {/* Book a Call Button */}
+                            <motion.div
+                                className="z-10"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={IOS_SPRING}
+                            >
+                                <Link
+                                    href="#contact"
+                                    className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
+                                >
+                                    Book a Call
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </div >
                 </motion.div >
 
                 {/* Right: Command Button (Stays Right) */}
