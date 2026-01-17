@@ -97,16 +97,16 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
 
                                 <Command.Group heading="PAGES" className="text-[10px] uppercase tracking-widest text-white/20 font-semibold mb-2 px-2 mt-3 select-none">
                                     <CommandItem title="Home" subtitle="Go to homepage" onSelect={() => runCommand(() => router.push("/"))}>
-                                        <Home className="mr-4 h-5 w-5" />
+                                        <Home className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                     <CommandItem title="About" subtitle="Learn more about me" onSelect={() => runCommand(() => router.push("/about"))}>
-                                        <User className="mr-4 h-5 w-5" />
+                                        <User className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                     <CommandItem title="Work" subtitle="View my projects" onSelect={() => runCommand(() => router.push("/work"))}>
-                                        <Briefcase className="mr-4 h-5 w-5" />
+                                        <Briefcase className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                     <CommandItem title="Blogs" subtitle="Read my thoughts" onSelect={() => runCommand(() => router.push("/blogs"))}>
-                                        <MessageSquare className="mr-4 h-5 w-5" />
+                                        <MessageSquare className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                 </Command.Group>
 
@@ -114,13 +114,13 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
 
                                 <Command.Group heading="SOCIALS" className="text-[10px] uppercase tracking-widest text-white/20 font-semibold mb-2 px-2 mt-2 select-none">
                                     <CommandItem title="GitHub" subtitle="Check my open source work" onSelect={() => runCommand(() => window.open("https://github.com", "_blank"))}>
-                                        <Github className="mr-4 h-5 w-5" />
+                                        <Github className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                     <CommandItem title="Twitter" subtitle="Follow my updates" onSelect={() => runCommand(() => window.open("https://twitter.com", "_blank"))}>
-                                        <Twitter className="mr-4 h-5 w-5" />
+                                        <Twitter className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                     <CommandItem title="LinkedIn" subtitle="Connect with me" onSelect={() => runCommand(() => window.open("https://linkedin.com", "_blank"))}>
-                                        <Linkedin className="mr-4 h-5 w-5" />
+                                        <Linkedin className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                 </Command.Group>
                             </Command.List>
@@ -179,8 +179,8 @@ function CommandItem({
                 {children}
             </div>
             <div className="flex flex-col ml-3">
-                <span className="font-sans font-medium text-[15px] text-white/80 group-aria-selected:text-white">{title}</span>
-                <span className="text-[13px] text-white/30 font-normal group-aria-selected:text-white/50">{subtitle}</span>
+                <span className="font-sans font-medium text-[14px] text-white/80 group-aria-selected:text-white">{title}</span>
+                <span className="text-[12px] text-white/30 font-normal group-aria-selected:text-white/50">{subtitle}</span>
             </div>
             <div className="ml-auto opacity-0 group-aria-selected:opacity-100 transition-opacity duration-200 transform translate-x-[-4px] group-aria-selected:translate-x-0">
                 <CornerDownLeft className="w-4 h-4 text-white/40" />
