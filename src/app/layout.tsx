@@ -23,9 +23,6 @@ export default function RootLayout({
         <Header />
         <AmbientLight />
 
-        {/* Global Ambient Background (Blue Light) */}
-        <div className="fixed top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[150px] pointer-events-none -translate-y-1/2 z-[-1]" />
-
         <TransitionWrapper>
           {children}
         </TransitionWrapper>
