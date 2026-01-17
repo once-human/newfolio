@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from "framer-motion";
 import { outfit } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Github, Twitter, Linkedin, Instagram, Send, Star } from "lucide-react";
@@ -51,6 +51,17 @@ const footerLinks = [
 ];
 
 export function Footer() {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const { left, top } = e.currentTarget.getBoundingClientRect();
+        mouseX.set(e.clientX - left);
+        mouseY.set(e.clientY - top);
+    };
+
+    const spotlightBackground = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.08), transparent 80%)`;
+
     return (
         <footer className="relative w-full bg-black pt-20 pb-8 px-4 md:px-8 overflow-hidden">
             {/* CTA Section */}
@@ -82,10 +93,18 @@ export function Footer() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.01, backgroundColor: "rgba(0,0,0,0.5)" }}
+                whileTap={{ scale: 0.99 }}
+                onMouseMove={handleMouseMove}
                 transition={{ duration: 0.5 }}
-                className="max-w-[1400px] mx-auto bg-black/40 backdrop-blur-3xl border border-white/10 rounded-[40px] p-8 md:p-16 relative overflow-hidden z-10 shadow-2xl"
+                className="max-w-[1400px] mx-auto bg-black/40 backdrop-blur-3xl border border-white/10 rounded-[40px] p-8 md:p-16 relative overflow-hidden z-10 shadow-2xl group/card"
             >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+                {/* Spotlight Effect Layer */}
+                <motion.div
+                    className="absolute inset-0 pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
+                    style={{ background: spotlightBackground }}
+                />
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 relative z-10">
                     {/* Brand Column */}
                     <div className="flex flex-col gap-6 max-w-lg">
                         <h3 className={cn(outfit.className, "text-4xl font-black uppercase tracking-tighter text-white")}>
