@@ -30,7 +30,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ type: "spring", stiffness: 170, damping: 26, mass: 1.6 }}
-                    className="flex items-center text-[15vw] md:text-[256px] font-black leading-none md:leading-[256px] tracking-tighter text-white mix-blend-difference select-none"
+                    className="flex items-center text-[15vw] md:text-[256px] font-black leading-none md:leading-[256px] tracking-tighter text-foreground select-none"
                 >
                     <span className="relative flex items-center justify-center">
                         <span className="relative z-10">O</span>
@@ -67,10 +67,10 @@ export function Hero() {
                     transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                     className="mt-8 flex flex-col items-center gap-2"
                 >
-                    <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.33em] text-white/40">
+                    <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.33em] text-muted-foreground/60">
                         <span>I Design And Build Products That</span>
                     </div>
-                    <div className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal")}>
+                    <div className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-foreground italic tracking-tight font-normal")}>
                         deliver real impact.
                     </div>
                 </motion.div>
