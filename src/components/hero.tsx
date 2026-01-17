@@ -12,7 +12,7 @@ export function Hero() {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        setIsScrolled(latest > 50);
+        setIsScrolled(latest > 100);
     });
 
     return (
@@ -35,9 +35,9 @@ export function Hero() {
                                 <motion.img
                                     layoutId="hero-profile-img"
                                     onClick={() => setIsExpanded(true)}
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
                                     src="/assets/me.png"
                                     alt="Profile"
                                     className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"

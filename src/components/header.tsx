@@ -82,7 +82,7 @@ export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        setIsScrolled(latest > 50);
+        setIsScrolled(latest > 100);
     });
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
