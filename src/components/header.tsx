@@ -107,14 +107,15 @@ export function Header() {
             <header className="fixed top-6 left-0 right-0 z-50 grid grid-cols-[auto_1fr_auto] items-center px-6 md:px-12 pointer-events-none gap-4">
 
                 {/* Left: Dynamic Profile / Label */}
+                {/* Left: Dynamic Profile / Label */}
                 <motion.div
                     className="flex items-center gap-4 pointer-events-auto justify-self-start"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    {/* Dynamic Image Slot */}
-                    <div className="relative w-10 h-10 flex items-center justify-center">
+                    {/* Dynamic Image Slot - With Backdrop Blur */}
+                    <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm border border-white/5">
                         <AnimatePresence>
                             {isScrolled && (
                                 <motion.img
@@ -142,7 +143,7 @@ export function Header() {
                     <motion.div
                         animate={{ x: isScrolled ? 0 : -20 }}
                         transition={LIQUID_SPRING}
-                        className="hidden md:flex items-center gap-3"
+                        className="hidden md:flex items-center gap-3 px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-md border border-white/5"
                     >
                         <div className="relative flex h-2 w-2 items-center justify-center">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
@@ -156,18 +157,20 @@ export function Header() {
                 </motion.div>
 
                 {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
-                <motion.div
+                < motion.div
                     layout
-                    className={cn(
-                        "relative hidden md:flex items-center pointer-events-auto",
-                        isScrolled ? "justify-self-end" : "justify-self-center"
-                    )}
+                    className={
+                        cn(
+                            "relative hidden md:flex items-center pointer-events-auto",
+                            isScrolled ? "justify-self-end" : "justify-self-center"
+                        )
+                    }
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={LIQUID_SPRING}
                 >
                     {/* Visual Glass Pill */}
-                    <motion.div
+                    < motion.div
                         onMouseMove={handleMouseMove}
                         onMouseLeave={handleMouseLeave}
                         ref={ref}
@@ -176,7 +179,7 @@ export function Header() {
                         className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] hover:ring-white/[0.05] overflow-hidden group/pill transition-all duration-500"
                     >
                         {/* Spotlight Effect Layer */}
-                        <motion.div
+                        < motion.div
                             className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
                             style={{ background: spotlightBackground }}
                         />
@@ -215,11 +218,11 @@ export function Header() {
                                 Book a Call
                             </Link>
                         </motion.div>
-                    </motion.div>
-                </motion.div>
+                    </motion.div >
+                </motion.div >
 
                 {/* Right: Command Button (Stays Right) */}
-                <motion.div
+                < motion.div
                     className="justify-self-end pointer-events-auto"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -234,8 +237,8 @@ export function Header() {
                     >
                         <Command className="w-5 h-5" />
                     </motion.button>
-                </motion.div>
-            </header>
+                </motion.div >
+            </header >
         </>
     );
 }
