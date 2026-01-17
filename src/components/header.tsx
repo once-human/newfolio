@@ -23,8 +23,8 @@ const navItems = [
     { name: "More", href: "#more", isDropdown: true },
 ];
 
-// Apple-style "Fluid" Spring Config
-const IOS_SPRING = { type: "spring", mass: 1, stiffness: 170, damping: 26 } as const;
+// Apple-style "Liquid Glass" Spring Config - Smoother/Slower
+const IOS_SPRING = { type: "spring", mass: 1, stiffness: 100, damping: 20 } as const;
 
 function NavItem({ item }: { item: { name: string; href: string; isDropdown?: boolean } }) {
     const pathname = usePathname();
@@ -108,8 +108,12 @@ export function Header() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
-                {/* Dynamic Image Slot */}
-                <div className="relative w-10 h-10 flex items-center justify-center">
+                {/* Dynamic Image Slot - Collapses width when not scrolled */}
+                <motion.div
+                    animate={{ width: isScrolled ? 40 : 0, marginRight: isScrolled ? 16 : 0 }}
+                    transition={IOS_SPRING}
+                    className="relative h-10 flex items-center justify-center overflow-visible"
+                >
                     <AnimatePresence>
                         {isScrolled && (
                             <motion.img
@@ -117,14 +121,14 @@ export function Header() {
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0 }}
-                                transition={{ type: "spring", stiffness: 170, damping: 26 }}
+                                transition={IOS_SPRING}
                                 src="/assets/me.png"
                                 alt="Small Profile"
-                                className="absolute w-8 h-8 object-cover rounded-full"
+                                className="absolute w-8 h-8 object-cover rounded-full left-1"
                             />
                         )}
                     </AnimatePresence>
-                </div>
+                </motion.div>
 
                 {/* Separator - Visible only on scroll */}
                 <motion.div
@@ -135,7 +139,7 @@ export function Header() {
                 />
 
                 <motion.div
-                    animate={{ x: isScrolled ? 0 : -20 }}
+                    animate={{ x: isScrolled ? 0 : -8 }}
                     transition={IOS_SPRING}
                     className="hidden md:flex items-center gap-3"
                 >
