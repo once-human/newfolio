@@ -222,10 +222,10 @@ export function Header() {
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             >
                 <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     transition={IOS_SPRING}
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.08] backdrop-blur-3xl shadow-lg ring-1 ring-white/[0.03] group"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.01] border border-white/[0.05] text-white/60 hover:text-white hover:bg-white/[0.05] backdrop-blur-3xl backdrop-saturate-150 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.02] group"
                 >
                     <Command className="w-5 h-5" />
                 </motion.button>
