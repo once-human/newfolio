@@ -28,7 +28,7 @@ export function Hero() {
                             transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=200&auto=format&fit=crop"
                             alt="Profile"
-                            className="absolute z-0 w-[0.38em] h-[0.38em] object-cover rounded-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 ml-[0.08em] mt-[0.02em]"
+                            className="absolute z-0 w-[0.4em] h-[0.4em] object-cover rounded-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 ml-[0.04em] mt-[0.02em]"
                         />
                     </span>
                     NKA
