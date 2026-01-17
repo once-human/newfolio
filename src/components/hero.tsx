@@ -28,7 +28,11 @@ export function Hero() {
                             transition={{ delay: 0.6, type: "spring", stiffness: 200, damping: 15 }}
                             className="absolute inset-0 flex items-center justify-center"
                         >
-                            <Smile className="w-[0.5em] h-[0.5em] text-emerald-400 opacity-80" strokeWidth={2.5} />
+                            <svg viewBox="0 0 100 100" className="w-[60%] h-[60%] fill-black pointer-events-none">
+                                <circle cx="35" cy="40" r="8" />
+                                <circle cx="65" cy="40" r="8" />
+                                <path d="M 30 65 Q 50 85 70 65" stroke="black" strokeWidth="8" fill="transparent" strokeLinecap="round" />
+                            </svg>
                         </motion.div>
                     </span>
                     NKAR
