@@ -64,8 +64,8 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
 
             {/* Ensure text is above background layers */}
             <span className={cn(
-                "relative z-10 flex items-center gap-1",
-                isActive ? "text-black font-semibold" : ""
+                "relative z-10 flex items-center gap-1 transition-colors duration-500",
+                isActive ? "text-black" : "text-white/60 group-hover:text-white"
             )}>
                 {item.name}
                 {item.isDropdown && <ChevronDown className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100" />}
