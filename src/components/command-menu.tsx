@@ -57,19 +57,19 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                     exit={{ opacity: 0 }}
                     className="fixed inset-0 z-[100] flex items-center justify-center px-4"
                 >
-                    {/* Backdrop */}
+                    {/* Backdrop - Subtle and Clean */}
                     <div
-                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"
                         onClick={() => setOpen(() => false)}
                     />
 
-                    {/* Modal - Taller and Smoother */}
+                    {/* Modal - True Liquid Glass (Transparent & Blurred) */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={OPEN_SPRING}
-                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#050505] shadow-2xl flex flex-col min-h-[500px]"
+                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#050505]/60 backdrop-blur-2xl shadow-2xl flex flex-col min-h-[550px]"
                     >
                         <Command
                             className="w-full bg-transparent flex flex-col h-full"
@@ -91,12 +91,12 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                             </div>
 
                             {/* Scrollable List with Smooth Scrolling */}
-                            <Command.List className="max-h-[500px] flex-1 overflow-y-auto overflow-x-hidden p-2 scrollbar-thin scroll-smooth">
+                            <Command.List className="max-h-[550px] flex-1 overflow-y-auto overflow-x-hidden p-2 scrollbar-thin scroll-smooth">
                                 <Command.Empty className="py-12 text-center text-sm text-white/30">
                                     No results found.
                                 </Command.Empty>
 
-                                <Command.Group heading="PAGES" className="text-[9px] uppercase tracking-widest text-white/20 font-bold mb-2 px-2 mt-3 select-none">
+                                <Command.Group heading="Pages" className="text-[10px] text-white/20 font-medium mb-2 px-2 mt-3 select-none">
                                     <CommandItem title="Home" subtitle="Go to homepage" value="home" onSelect={() => runCommand(() => router.push("/"))} activeValue={value} setValue={setValue}>
                                         <Home className="mr-3 h-4 w-4" />
                                     </CommandItem>
@@ -113,7 +113,7 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
 
                                 <Command.Separator className="my-2 h-[1px] bg-white/[0.04] mx-2" />
 
-                                <Command.Group heading="SOCIALS" className="text-[9px] uppercase tracking-widest text-white/20 font-bold mb-2 px-2 mt-2 select-none">
+                                <Command.Group heading="Socials" className="text-[10px] text-white/20 font-medium mb-2 px-2 mt-2 select-none">
                                     <CommandItem title="GitHub" subtitle="Check my open source work" value="github" onSelect={() => runCommand(() => window.open("https://github.com", "_blank"))} activeValue={value} setValue={setValue}>
                                         <Github className="mr-3 h-4 w-4" />
                                     </CommandItem>
@@ -127,8 +127,8 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                             </Command.List>
 
                             {/* Footer */}
-                            <div className="flex items-center justify-between px-3 py-2 border-t border-white/[0.08] text-[9px] text-white/30 font-medium tracking-wider bg-[#080808]">
-                                <div className="flex gap-4 uppercase">
+                            <div className="flex items-center justify-between px-3 py-2 border-t border-white/[0.08] text-[9px] text-white/30 font-medium tracking-wider bg-[#080808]/50 backdrop-blur-md">
+                                <div className="flex gap-4">
                                     <span className="cursor-pointer hover:text-white/50 transition-colors">Privacy</span>
                                     <span className="cursor-pointer hover:text-white/50 transition-colors">Terms</span>
                                 </div>
