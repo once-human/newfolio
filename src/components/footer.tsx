@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { outfit } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Github, Twitter, Linkedin, Instagram, Send, Star } from "lucide-react";
@@ -133,15 +133,13 @@ function MagneticOrb() {
     const ref = React.useRef<HTMLDivElement>(null);
     const [position, setPosition] = React.useState({ x: 0, y: 0 });
 
+    const [bursts, setBursts] = React.useState<{ id: number; x: number; y: number }[]>([]);
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const { clientX, clientY } = e;
         const { left, top, width, height } = ref.current?.getBoundingClientRect() ?? { left: 0, top: 0, width: 0, height: 0 };
         const center = { x: left + width / 2, y: top + height / 2 };
-
-        // Calculate distance from center
         const distance = { x: clientX - center.x, y: clientY - center.y };
-
-        // Magnetic pull (dampened)
         setPosition({ x: distance.x * 0.1, y: distance.y * 0.1 });
     };
 
@@ -149,18 +147,90 @@ function MagneticOrb() {
         setPosition({ x: 0, y: 0 });
     };
 
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        const { left, top, width, height } = ref.current?.getBoundingClientRect() ?? { left: 0, top: 0, width: 0, height: 0 };
+        const center = { x: left + width / 2, y: top + height / 2 };
+        // We want the burst to originate from the center of the orb, but visually it feels better if it's slightly towards the click if it's way off, 
+        // but for a "core" explosion, center is best.
+        // Let's add a unique ID for each click to trigger independent bursts
+        setBursts((prev) => [...prev, { id: Date.now(), x: 0, y: 0 }]);
+    };
+
+    const removeBurst = (id: number) => {
+        setBursts((prev) => prev.filter((b) => b.id !== id));
+    };
+
     return (
         <motion.div
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+            whileTap={{ scale: 0.9 }}
             animate={{ x: position.x, y: position.y }}
             transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-            className="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center cursor-pointer group"
+            className="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center cursor-pointer group select-none"
         >
             <div className="absolute inset-0 bg-blue-500/30 rounded-full blur-[100px] animate-pulse group-hover:bg-blue-500/40 transition-colors duration-500" />
             <div className="absolute inset-10 bg-indigo-500/20 rounded-full blur-[80px]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 rounded-full shadow-[0_0_50px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 rounded-full shadow-[0_0_50px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500 overflow-visible">
+                {/* Bursts */}
+                <AnimatePresence>
+                    {bursts.map((burst) => (
+                        <ParticleBurst key={burst.id} onComplete={() => removeBurst(burst.id)} />
+                    ))}
+                </AnimatePresence>
+            </div>
         </motion.div>
     );
 }
+
+const ParticleBurst = ({ onComplete }: { onComplete: () => void }) => {
+    // Generate particles
+    const particles = React.useMemo(() => {
+        return Array.from({ length: 20 }).map((_, i) => ({
+            id: i,
+            angle: (i * 360) / 20, // Distribute evenly
+            distance: Math.random() * 100 + 100, // Random distance 100-200px
+            size: Math.random() * 4 + 2, // Random size 2-6px
+            color: i % 2 === 0 ? "bg-white" : "bg-blue-400",
+        }));
+    }, []);
+
+    React.useEffect(() => {
+        const timer = setTimeout(onComplete, 1000);
+        return () => clearTimeout(timer);
+    }, [onComplete]);
+
+    return (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            {/* Shockwave Ripple */}
+            <motion.div
+                initial={{ scale: 0.5, opacity: 1, borderWidth: 4 }}
+                animate={{ scale: 2, opacity: 0, borderWidth: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="absolute w-full h-full rounded-full border-blue-500/50"
+            />
+
+            {/* Particles */}
+            {particles.map((p) => (
+                <motion.div
+                    key={p.id}
+                    initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                    animate={{
+                        x: Math.cos((p.angle * Math.PI) / 180) * p.distance,
+                        y: Math.sin((p.angle * Math.PI) / 180) * p.distance,
+                        opacity: 0,
+                        scale: 0,
+                    }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className={cn("absolute rounded-full shadow-[0_0_10px_currentColor]", p.color)}
+                    style={{
+                        width: p.size,
+                        height: p.size,
+                    }}
+                />
+            ))}
+        </div>
+    );
+};
