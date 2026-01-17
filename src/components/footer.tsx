@@ -60,7 +60,7 @@ export function Footer() {
         mouseY.set(e.clientY - top);
     };
 
-    const spotlightBackground = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.08), transparent 80%)`;
+    const spotlightBackground = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.02), transparent 80%)`;
 
     return (
         <footer className="relative w-full bg-black pt-20 pb-8 px-4 md:px-8 overflow-hidden">
