@@ -138,6 +138,7 @@ function MagneticOrb() {
     const [position, setPosition] = React.useState({ x: 0, y: 0 });
 
     const [bursts, setBursts] = React.useState<{ id: number; x: number; y: number }[]>([]);
+    const [texts, setTexts] = React.useState<{ id: number; text: string; x: number; y: number; rotation: number }[]>([]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const { clientX, clientY } = e;
@@ -162,10 +163,24 @@ function MagneticOrb() {
         // but for a "core" explosion, center is best.
         // Let's add a unique ID for each click to trigger independent bursts
         setBursts((prev) => [...prev, { id: Date.now(), x: 0, y: 0 }]);
+
+        // Add random text
+        const words = ["phew!", "boom!", "zap!", "pow!", "whoa!", "nice!", "cool!", "magic!", "spark!", "pop!", "wowsers!", "gosh!", "neat!", "super!", "rad!", "yay!", "yipee!", "whee!", "omg!", "yass!", "slay!", "epic!", "sick!", "dope!", "woah!", "bam!", "bang!", "kaboom!", "zing!", "zow!"];
+        const randomWord = words[Math.floor(Math.random() * words.length)];
+        // Random position relative to center (spread out a bit more)
+        const randomX = (Math.random() - 0.5) * 200;
+        const randomY = (Math.random() - 0.5) * 200;
+        const randomRotation = (Math.random() - 0.5) * 30; // Tilt slightly
+
+        setTexts((prev) => [...prev, { id: Date.now(), text: randomWord, x: randomX, y: randomY, rotation: randomRotation }]);
     };
 
     const removeBurst = (id: number) => {
         setBursts((prev) => prev.filter((b) => b.id !== id));
+    };
+
+    const removeText = (id: number) => {
+        setTexts((prev) => prev.filter((t) => t.id !== id));
     };
 
     return (
@@ -188,10 +203,37 @@ function MagneticOrb() {
                         <ParticleBurst key={burst.id} onComplete={() => removeBurst(burst.id)} />
                     ))}
                 </AnimatePresence>
+
+                {/* Floating Texts */}
+                <AnimatePresence>
+                    {texts.map((item) => (
+                        <FloatingText key={item.id} text={item.text} x={item.x} y={item.y} rotation={item.rotation} onComplete={() => removeText(item.id)} />
+                    ))}
+                </AnimatePresence>
             </div>
         </motion.div>
     );
 }
+
+const FloatingText = ({ text, x, y, rotation, onComplete }: { text: string; x: number; y: number; rotation: number; onComplete: () => void }) => {
+    React.useEffect(() => {
+        const timer = setTimeout(onComplete, 1000);
+        return () => clearTimeout(timer);
+    }, [onComplete]);
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.5, x, y, rotate: rotation }}
+            animate={{ opacity: 1, scale: 1.2, x: x + (Math.random() - 0.5) * 20, y: y - 50 }} // Float up
+            exit={{ opacity: 0, scale: 1.5, y: y - 100 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className={cn("absolute whitespace-nowrap text-white font-bold tracking-tighter pointer-events-none z-50", outfit.className)}
+            style={{ fontSize: "2rem", textShadow: "0 4px 12px rgba(0,0,0,0.5)" }}
+        >
+            {text}
+        </motion.div>
+    );
+};
 
 const ParticleBurst = ({ onComplete }: { onComplete: () => void }) => {
     // Generate particles
