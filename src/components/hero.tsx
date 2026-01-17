@@ -12,7 +12,7 @@ export function Hero() {
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-10 text-center">
             {/* Background/Ambient Effect - Brighter Sky Blue */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-500/30 via-black to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-400/50 via-black to-black" />
 
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center -mt-12">
@@ -27,8 +27,8 @@ export function Hero() {
                         <motion.img
                             layoutId="hero-profile-img"
                             onClick={() => setIsExpanded(true)}
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, scale: 0.5, x: 0 }}
+                            animate={{ opacity: 1, scale: 1, x: 0 }}
                             transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                             src="/assets/me.png"
                             alt="Profile"
@@ -57,7 +57,7 @@ export function Hero() {
             {/* Footer / Bottom Elements */}
             <div className="absolute bottom-12 left-12 hidden md:block">
                 <div className="flex flex-col items-start gap-1">
-                    <div className="text-emerald-500 text-lg">
+                    <div className="text-sky-500 text-lg">
                         📍
                     </div>
                     <div className="text-xs font-medium uppercase tracking-wider text-zinc-500">
