@@ -28,21 +28,10 @@ export function Hero() {
                             transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=200&auto=format&fit=crop"
                             alt="Profile"
-                            className="absolute z-0 w-[0.5em] h-[0.5em] object-cover rounded-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                            className="absolute z-0 w-[0.38em] h-[0.38em] object-cover rounded-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 ml-[0.08em] mt-[0.02em]"
                         />
                     </span>
-                    NK
-                    <span className="relative flex items-center justify-center">
-                        <span className="relative z-10">A</span>
-                        <motion.img
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.7, type: "spring", stiffness: 100 }}
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Arch_Linux_logo.svg/1024px-Arch_Linux_logo.svg.png"
-                            alt="Arch Linux"
-                            className="absolute z-0 w-[0.18em] h-[0.18em] object-contain opacity-60 hover:opacity-100 transition-opacity duration-500 mt-[0.15em]"
-                        />
-                    </span>
+                    NKA
                     R
                 </motion.h1>
 
