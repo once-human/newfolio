@@ -49,7 +49,8 @@ const TRANSITION_PROPS = {
 // the 'route' prop remains the OLD path, so we fetch the OLD children from the cache.
 function RenderRoute({ route, childrenCache }: { route: string, childrenCache: Map<string, React.ReactNode> }) {
     const children = childrenCache.get(route);
-    // Fallback to null if not found (shouldn't happen if logic is correct)
+    // If we don't have cached children (rare edge case), try to render nothing?
+    // Or render a fallback? But blank is better than crash.
     if (!children) return null;
     return <FrozenRoute>{children}</FrozenRoute>;
 }
@@ -64,15 +65,15 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
         frozenChildren.set(pathname, children);
     }
 
-    // Update the cache if the children reference changes (e.g. strict mode or dev refresh)
-    // to ensure we have the latest version of the current page.
+    // Always update cache to latest version of active page (handle HMR/renders)
     frozenChildren.set(pathname, children);
 
     return (
         // Grid Stack Container: Forces overlap without absolute positioning
         <div className="grid grid-cols-1 grid-rows-1 min-h-screen w-full overflow-hidden">
             {/* mode="sync" (default) allows both to exist simultaneously */}
-            <AnimatePresence initial={false}>
+            {/* initial={true} ensures the animation runs on first page load too */}
+            <AnimatePresence initial={true} mode="sync">
                 <motion.div
                     key={pathname}
                     initial={ANIMATION_CONFIG.initial}

@@ -20,9 +20,8 @@ export function Hero() {
     });
 
     return (
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-transparent px-4 pt-10 text-center">
-            {/* Background/Ambient Effect - Brighter Sky Blue */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-500/20 via-black/40 to-transparent" />
+        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 pt-10 text-center">
+            {/* Background removed to reveal global ambient light */}
 
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center -mt-12">
@@ -47,7 +46,7 @@ export function Hero() {
                                         transition={
                                             hasScrolledRef.current
                                                 ? { duration: 0.4, ease: "easeOut" }
-                                                : { delay: 0.5, type: "spring", stiffness: 100 }
+                                                : { delay: 2.2, type: "spring", stiffness: 100 } // 2.2s delay for initial load
                                         }
                                         src="/assets/me.png"
                                         alt="Profile"
