@@ -60,19 +60,24 @@ export function Hero() {
                     R
                 </motion.h1>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                    className="mt-8 flex flex-col items-center gap-2"
-                >
-                    <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.33em] text-white/40">
+                <div className="mt-8 flex flex-col items-center gap-2">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
+                        className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.33em] text-white/40"
+                    >
                         <span>I Build And Ship Products That</span>
-                    </div>
-                    <div className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal")}>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
+                        className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal")}
+                    >
                         deliver real impact.
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
             </div>
 
             {/* Footer / Bottom Elements */}
