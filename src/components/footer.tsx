@@ -165,12 +165,20 @@ function MagneticOrb() {
         setBursts((prev) => [...prev, { id: Date.now(), x: 0, y: 0 }]);
 
         // Add random text
-        const words = ["phew!", "boom!", "zap!", "pow!", "whoa!", "nice!", "cool!", "magic!", "spark!", "pop!", "wowsers!", "gosh!", "neat!", "super!", "rad!", "yay!", "yipee!", "whee!", "omg!", "yass!", "slay!", "epic!", "sick!", "dope!", "woah!", "bam!", "bang!", "kaboom!", "zing!", "zow!"];
+        const words = [
+            "phew!", "boom!", "zap!", "pow!", "whoa!", "nice!", "cool!", "magic!", "spark!", "pop!",
+            "wowsers!", "gosh!", "neat!", "super!", "rad!", "yay!", "yipee!", "whee!", "omg!", "yass!",
+            "slay!", "epic!", "sick!", "dope!", "woah!", "bam!", "bang!", "kaboom!", "zing!", "zow!",
+            "smash!", "crash!", "yeet!", "yoink!", "bop!", "bonk!", "snap!", "crack!", "wham!", "crunch!",
+            "splash!", "bazinga!", "eureka!", "hurray!", "bravo!", "yeah!", "yup!", "haha!", "lol!", "win!",
+            "top!", "max!", "ultra!", "mega!", "hyper!", "giga!", "tera!", "blam!", "plop!", "fizz!",
+            "buzz!", "beep!", "boop!", "ding!", "winning!"
+        ];
         const randomWord = words[Math.floor(Math.random() * words.length)];
-        // Random position relative to center (spread out a bit more)
-        const randomX = (Math.random() - 0.5) * 200;
-        const randomY = (Math.random() - 0.5) * 200;
-        const randomRotation = (Math.random() - 0.5) * 30; // Tilt slightly
+        // Random position relative to center (Wider spread: 300px range)
+        const randomX = (Math.random() - 0.5) * 300;
+        const randomY = (Math.random() - 0.5) * 300;
+        const randomRotation = (Math.random() - 0.5) * 40; // More tilt
 
         setTexts((prev) => [...prev, { id: Date.now(), text: randomWord, x: randomX, y: randomY, rotation: randomRotation }]);
     };
@@ -217,18 +225,18 @@ function MagneticOrb() {
 
 const FloatingText = ({ text, x, y, rotation, onComplete }: { text: string; x: number; y: number; rotation: number; onComplete: () => void }) => {
     React.useEffect(() => {
-        const timer = setTimeout(onComplete, 1000);
+        const timer = setTimeout(onComplete, 600); // Faster timeout
         return () => clearTimeout(timer);
     }, [onComplete]);
 
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.5, x, y, rotate: rotation }}
-            animate={{ opacity: 1, scale: 1.2, x: x + (Math.random() - 0.5) * 20, y: y - 50 }} // Float up
-            exit={{ opacity: 0, scale: 1.5, y: y - 100 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            animate={{ opacity: 1, scale: 1.5, x: x + (Math.random() - 0.5) * 30, y: y }} // Punch up, minimal drift
+            exit={{ opacity: 0, scale: 0, y: y - 20 }} // Shrink out quickly
+            transition={{ duration: 0.5, type: "spring", stiffness: 300, damping: 15 }} // Punchy spring
             className={cn("absolute whitespace-nowrap text-white font-bold tracking-tighter pointer-events-none z-50", outfit.className)}
-            style={{ fontSize: "2rem", textShadow: "0 4px 12px rgba(0,0,0,0.5)" }}
+            style={{ fontSize: "2.5rem", textShadow: "0 4px 12px rgba(0,0,0,0.5)" }} // Slightly larger text
         >
             {text}
         </motion.div>
