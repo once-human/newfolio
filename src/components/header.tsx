@@ -135,7 +135,7 @@ export function Header() {
     return (
         <>
             <CommandMenu open={open} setOpen={setOpen} />
-            <header className="fixed top-6 left-0 right-0 z-50 grid grid-cols-[auto_1fr_auto] items-center px-6 md:px-12 pointer-events-none gap-4">
+            <header className="fixed top-6 left-0 right-0 z-[60] grid grid-cols-[auto_1fr_auto] items-center px-6 md:px-12 pointer-events-none gap-4">
 
                 {/* Left: Dynamic Profile / Label */}
                 {/* Left: Dynamic Profile / Label */}
