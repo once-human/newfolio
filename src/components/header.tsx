@@ -2,8 +2,9 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { Command, Moon, ChevronDown } from "lucide-react";
+import { Command, Moon, Sun, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 import {
     motion,
     AnimatePresence,
@@ -80,6 +81,7 @@ export function Header() {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const { scrollY } = useScroll();
+    const { theme, setTheme } = useTheme();
     const [isScrolled, setIsScrolled] = useState(false);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -169,7 +171,7 @@ export function Header() {
                     ref={ref}
                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                     transition={IOS_SPRING}
-                    className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] overflow-hidden group/pill"
+                    className="relative flex items-center p-1.5 rounded-full bg-black/5 dark:bg-white/[0.01] border border-black/5 dark:border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-black/5 dark:ring-white/[0.02] overflow-hidden group/pill"
                 >
                     {/* Spotlight Effect Layer */}
                     <motion.div
@@ -189,12 +191,13 @@ export function Header() {
 
                     {/* Theme Toggle */}
                     <motion.button
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         transition={IOS_SPRING}
-                        className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group z-10"
+                        className="p-3 rounded-full text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 relative group z-10"
                     >
-                        <Moon className="w-4 h-4" />
+                        {theme === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
                     </motion.button>
 
                     {/* Book a Call Button */}
@@ -205,10 +208,10 @@ export function Header() {
                         transition={IOS_SPRING}
                     >
                         <Link
-                            href="#contact"
-                            className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
+                            href="#resume"
+                            className="ml-2 relative block overflow-hidden rounded-full bg-black dark:bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(0,0,0,0.3)] dark:shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-white dark:text-black"
                         >
-                            Book a Call
+                            Resume
                         </Link>
                     </motion.div>
                 </motion.div>
