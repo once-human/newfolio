@@ -99,7 +99,7 @@ export function Hero() {
                             Full Stack Dev,
                         </span>
                         <span className="text-base font-normal leading-6 text-zinc-500 uppercase tracking-wide">
-                            & Builder
+                            Web & Apps
                         </span>
                     </div>
                 </div>
