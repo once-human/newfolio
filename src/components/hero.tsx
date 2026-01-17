@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { Smile, X } from "lucide-react";
+import { Smile, X, MapPin } from "lucide-react";
 
 export function Hero() {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -78,13 +78,15 @@ export function Hero() {
 
             {/* Footer / Bottom Elements */}
             <div className="absolute bottom-12 left-12 hidden md:block">
-                <div className="flex flex-col items-start gap-1">
-                    <div className="text-sky-500 text-lg">
-                        📍
-                    </div>
-                    <div className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                        Based in India <br />
-                        & Remote
+                <div className="flex flex-col items-center gap-2">
+                    <MapPin className="w-5 h-5 text-green-500" strokeWidth={1.5} />
+                    <div className="flex flex-col items-center text-center font-sans">
+                        <span className="text-base font-normal leading-6 text-[#EDEDED] uppercase tracking-wide">
+                            Based In Pune,
+                        </span>
+                        <span className="text-base font-normal leading-6 text-zinc-500 uppercase tracking-wide">
+                            India
+                        </span>
                     </div>
                 </div>
             </div>
