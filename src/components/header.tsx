@@ -163,7 +163,7 @@ export function Header() {
                                         transition={LIQUID_SPRING}
                                         src="/assets/me.png"
                                         alt="Profile"
-                                        className="w-full h-full rounded-full object-cover grayscale"
+                                        className="w-full h-full rounded-full object-cover grayscale-[0.15]"
                                     />
                                 )}
                             </AnimatePresence>

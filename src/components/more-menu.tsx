@@ -48,12 +48,12 @@ export function MoreMenu() {
                         className="absolute top-[-15px] right-[-15px] text-white/10"
                         variants={{
                             hover: {
-                                rotate: [0, -10, 10, -5, 5, 0],
-                                y: [0, -5, 0],
-                                scale: [1, 1.1, 1],
+                                rotate: -15, // Smooth single tilt
+                                scale: 1.1,
                                 transition: {
-                                    duration: 0.6,
-                                    ease: "easeOut"
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 15
                                 }
                             }
                         }}
