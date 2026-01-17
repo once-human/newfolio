@@ -79,7 +79,7 @@ export function Hero() {
             {/* Footer / Bottom Elements */}
             <div className="absolute bottom-12 left-12 hidden md:block">
                 <div className="flex flex-col items-center gap-2">
-                    <MapPin className="w-5 h-5 text-green-500" strokeWidth={1.5} />
+                    <MapPin className="w-5 h-5 text-blue-500" strokeWidth={1.5} />
                     <div className="flex flex-col items-center text-center font-sans">
                         <span className="text-base font-normal leading-6 text-[#EDEDED] uppercase tracking-wide">
                             Based In Pune,

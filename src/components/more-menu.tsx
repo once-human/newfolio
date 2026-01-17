@@ -35,7 +35,7 @@ export function MoreMenu() {
             animate={{ opacity: 1, scale: 1, y: 30 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[600px] p-2 rounded-3xl bg-[#0A0A0A]/90 backdrop-blur-2xl border border-white/10 shadow-2xl z-50 overflow-hidden flex flex-row gap-2 origin-top"
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[600px] p-2 rounded-3xl bg-[#0A0A0A]/90 backdrop-blur-2xl border border-white/10 shadow-2xl z-50 overflow-hidden flex flex-row gap-2 origin-top"
         >
             {/* Labs Card (Left) */}
             <Link
@@ -45,15 +45,17 @@ export function MoreMenu() {
                 {/* Background Decor - Interactive Flask */}
                 <motion.div
                     className="absolute top-[-20px] right-[-20px] text-white/10"
-                    animate={{
-                        rotate: [12, -5, 12],
-                        y: [0, -10, 0],
-                        scale: [1, 1.05, 1]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
+                    variants={{
+                        hover: {
+                            rotate: [12, -5, 12],
+                            y: [0, -10, 0],
+                            scale: [1, 1.05, 1],
+                            transition: {
+                                duration: 4,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }
+                        }
                     }}
                 >
                     <FlaskConical className="w-48 h-48" />
