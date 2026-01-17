@@ -28,6 +28,16 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
     const router = useRouter();
     const [value, setValue] = React.useState("");
 
+    // Prevent scrolling when open
+    useEffect(() => {
+        if (open) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [open]);
+
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
             if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -52,24 +62,25 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
         <AnimatePresence>
             {open && (
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
                     className="fixed inset-0 z-[100] flex items-center justify-center px-4"
                 >
-                    {/* Backdrop - Subtle and Clean */}
-                    <div
-                        className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"
+                    {/* Backdrop - Smooth Blur Animation */}
+                    <motion.div
+                        initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                        animate={{ opacity: 1, backdropFilter: "blur(2px)" }}
+                        exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="absolute inset-0 bg-black/20"
                         onClick={() => setOpen(() => false)}
                     />
 
-                    {/* Modal - True Liquid Glass (Refined Visibility) */}
+                    {/* Modal - Refined Liquid Glass (slightly more transparent: /75) */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={OPEN_SPRING}
-                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#0a0a0a]/90 backdrop-blur-xl shadow-2xl flex flex-col min-h-[550px]"
+                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#0a0a0a]/75 backdrop-blur-xl shadow-2xl flex flex-col min-h-[550px]"
                     >
                         <Command
                             className="w-full bg-transparent flex flex-col h-full"
@@ -126,9 +137,9 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                                 </Command.Group>
                             </Command.List>
 
-                            {/* Footer */}
-                            <div className="flex items-center justify-between px-3 py-2 border-t border-white/[0.08] text-[9px] text-white/30 font-medium tracking-wider bg-[#0a0a0a]/80 backdrop-blur-md">
-                                <div className="flex gap-4">
+                            {/* Footer - Opaque Background to Contrast Glass Body */}
+                            <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.08] text-[10px] text-white/30 font-medium tracking-wider bg-[#020202]/90 backdrop-blur-md">
+                                <div className="flex gap-4 ml-1">
                                     <span className="cursor-pointer hover:text-white/50 transition-colors">Privacy</span>
                                     <span className="cursor-pointer hover:text-white/50 transition-colors">Terms</span>
                                 </div>
