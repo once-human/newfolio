@@ -75,8 +75,6 @@ export default function ContactPage() {
 
             </div>
 
-            {/* Background Gradients */}
-            <div className="fixed top-0 left-0 w-full h-[500px] bg-blue-500/20 blur-[150px] pointer-events-none -translate-y-1/2" />
         </main>
     );
 }

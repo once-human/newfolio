@@ -153,8 +153,8 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                             {/* Footer - Opaque Background to Contrast Glass Body */}
                             <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.08] text-[10px] text-white/30 font-medium tracking-wider bg-black/50 backdrop-blur-xl">
                                 <div className="flex gap-4 ml-1">
-                                    <span className="cursor-pointer hover:text-white/50 transition-colors">Privacy</span>
-                                    <span className="cursor-pointer hover:text-white/50 transition-colors">Terms</span>
+                                    <span onClick={() => { setOpen(() => false); router.push("/privacy"); }} className="cursor-pointer hover:text-white/50 transition-colors">Privacy</span>
+                                    <span onClick={() => { setOpen(() => false); router.push("/terms"); }} className="cursor-pointer hover:text-white/50 transition-colors">Terms</span>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <span className="flex items-center gap-1.5">

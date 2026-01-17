@@ -70,8 +70,6 @@ export default function PrivacyPage() {
 
             </div>
 
-            {/* Background Gradients */}
-            <div className="fixed top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[150px] pointer-events-none -translate-y-1/2" />
         </main>
     );
 }
