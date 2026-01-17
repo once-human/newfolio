@@ -68,7 +68,7 @@ export function Hero() {
                     className="mt-8 flex flex-col items-center gap-2"
                 >
                     <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.33em] text-white/40">
-                        <span>I Design And Build Products That</span>
+                        <span>I Build And Ship Products That</span>
                     </div>
                     <div className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal")}>
                         deliver real impact.
@@ -99,7 +99,7 @@ export function Hero() {
                             Full Stack Dev,
                         </span>
                         <span className="text-base font-normal leading-6 text-zinc-500 uppercase tracking-wide">
-                            & Designer
+                            & Builder
                         </span>
                     </div>
                 </div>
