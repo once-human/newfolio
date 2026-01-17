@@ -4,45 +4,14 @@ import React, { useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
-import confetti from "canvas-confetti";
+import { Smile, X } from "lucide-react";
 
 export function Hero() {
     const [isExpanded, setIsExpanded] = useState(false);
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
+    const [layoutId, setLayoutId] = useState<string | undefined>("hero-profile-img");
     const hasScrolledRef = React.useRef(false);
-
-    const handleImageClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-
-        // Liquid Confetti Effect
-        const scalar = 2;
-        const triangle = confetti.shapeFromPath({ path: 'M0 10 L5 0 L10 10z' });
-        const square = confetti.shapeFromPath({ path: 'M0 0 L10 0 L10 10 L0 10z' });
-        const coin = confetti.shapeFromPath({ path: 'M5 0 A5 5 0 1 0 5 10 A5 5 0 1 0 5 0z' });
-
-        const defaults = {
-            startVelocity: 25,
-            spread: 360,
-            ticks: 60,
-            zIndex: 100, // Above Lightbox
-            shapes: [coin], // Circles only for liquid feel
-            colors: ['#ffffff', '#38bdf8', '#bae6fd'], // White, Sky-400, Sky-200
-            scalar: 0.5, // Small size
-            disableForReducedMotion: true
-        };
-
-        const particleCount = 40;
-
-        confetti({
-            ...defaults,
-            particleCount,
-            origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
-        });
-
-        setIsExpanded(true);
-    };
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const scrolled = latest > 100;
@@ -65,13 +34,12 @@ export function Hero() {
                 >
                     <span className="relative flex items-center justify-center">
                         <span className="relative z-10">O</span>
-                        {/* Image Wrapper: Default z-0 (Behind), Hover z-50 (On Top) */}
-                        <span className="absolute z-0 hover:z-50 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em] flex items-center justify-center transition-all duration-0">
+                        <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em] flex items-center justify-center">
                             <AnimatePresence>
                                 {!isScrolled && (
                                     <motion.img
                                         key="hero-profile"
-                                        onClick={handleImageClick}
+                                        onClick={() => setIsExpanded(true)}
                                         // Initial: Zoom from 0.5. Re-entry: Fade from 1.
                                         initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
                                         animate={{ opacity: 1, scale: 1 }}
@@ -83,7 +51,7 @@ export function Hero() {
                                         }
                                         src="/assets/me.png"
                                         alt="Profile"
-                                        className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[5] cursor-zoom-in"
+                                        className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
                                     />
                                 )}
                             </AnimatePresence>

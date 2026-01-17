@@ -156,7 +156,7 @@ export function Header() {
                 layout
                 className={cn(
                     "relative hidden md:flex items-center pointer-events-auto",
-                    isScrolled ? "justify-self-center" : "justify-self-end"
+                    isScrolled ? "justify-self-end" : "justify-self-center"
                 )}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
