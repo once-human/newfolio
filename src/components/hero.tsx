@@ -21,14 +21,14 @@ export function Hero() {
                     className="flex items-center text-[15vw] md:text-[256px] font-black leading-none md:leading-[256px] tracking-tighter text-white mix-blend-difference select-none"
                 >
                     <span className="relative flex items-center justify-center mr-[0.05em]">
-                        <span className="relative z-10 text-[1.4em] mb-[-0.1em]">O</span>
+                        <span className="relative z-10 text-[1.2em] -translate-y-3">O</span>
                         <motion.img
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=200&auto=format&fit=crop"
                             alt="Profile"
-                            className="absolute z-0 w-[0.55em] h-[0.55em] object-cover rounded-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 mt-[0.1em] ml-[0.05em]"
+                            className="absolute z-0 w-[0.45em] h-[0.45em] object-cover rounded-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500 -translate-y-2 ml-[0.02em]"
                         />
                     </span>
                     NKAR
