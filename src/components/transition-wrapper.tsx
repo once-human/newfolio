@@ -44,6 +44,16 @@ const TRANSITION_PROPS = {
     ease: "easeInOut" as const
 };
 
+// Helper component to hold the route content based on a SPECIFIC path prop.
+// This ensures that when AnimatePresence holds the "old" instance, 
+// the 'route' prop remains the OLD path, so we fetch the OLD children from the cache.
+function RenderRoute({ route, childrenCache }: { route: string, childrenCache: Map<string, React.ReactNode> }) {
+    const children = childrenCache.get(route);
+    // Fallback to null if not found (shouldn't happen if logic is correct)
+    if (!children) return null;
+    return <FrozenRoute>{children}</FrozenRoute>;
+}
+
 export default function TransitionWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const frozenChildren = useRef(new Map<string, React.ReactNode>()).current;
@@ -54,8 +64,9 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
         frozenChildren.set(pathname, children);
     }
 
-    // Cleanup aggressive caching? For now, let's keep it simple. 
-    // In a real app we might want to limit size, but for a portfolio it's fine.
+    // Update the cache if the children reference changes (e.g. strict mode or dev refresh)
+    // to ensure we have the latest version of the current page.
+    frozenChildren.set(pathname, children);
 
     return (
         // Grid Stack Container: Forces overlap without absolute positioning
@@ -71,7 +82,8 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
                     // Force grid placement
                     className="col-start-1 row-start-1 min-h-screen w-full"
                 >
-                    <FrozenRoute>{frozenChildren.get(pathname) ?? children}</FrozenRoute>
+                    {/* Pass pathname as a PROP so it gets frozen by AnimatePresence */}
+                    <RenderRoute route={pathname} childrenCache={frozenChildren} />
                 </motion.div>
             </AnimatePresence>
         </div>
