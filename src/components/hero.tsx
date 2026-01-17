@@ -12,7 +12,7 @@ export function Hero() {
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-10 text-center">
             {/* Background/Ambient Effect - Brighter Sky Blue */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-400/50 via-black to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-500/60 via-black to-black" />
 
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center -mt-12">
@@ -24,16 +24,18 @@ export function Hero() {
                 >
                     <span className="relative flex items-center justify-center">
                         <span className="relative z-10">O</span>
-                        <motion.img
-                            layoutId="hero-profile-img"
-                            onClick={() => setIsExpanded(true)}
-                            initial={{ opacity: 0, scale: 0.5, x: 0 }}
-                            animate={{ opacity: 1, scale: 1, x: 0 }}
-                            transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-                            src="/assets/me.png"
-                            alt="Profile"
-                            className="absolute z-0 w-[0.4em] h-[0.4em] object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 ml-[0.04em] mt-[0.02em] hover:scale-[3.5] hover:z-50 cursor-zoom-in"
-                        />
+                        <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em]">
+                            <motion.img
+                                layoutId="hero-profile-img"
+                                onClick={() => setIsExpanded(true)}
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+                                src="/assets/me.png"
+                                alt="Profile"
+                                className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
+                            />
+                        </span>
                     </span>
                     NKA
                     R

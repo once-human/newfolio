@@ -108,12 +108,12 @@ export function Header() {
                 <div className="h-8 w-[1px] bg-white/10" />
                 <div className="hidden md:flex items-center gap-3">
                     <div className="relative flex h-2 w-2 items-center justify-center">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></span>
                     </div>
                     <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans">
                         <span>Creative Engineer</span>
-                        <span className="text-emerald-500/80 drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">Building The Future</span>
+                        <span className="text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]">Building The Future</span>
                     </div>
                 </div>
             </motion.div>
