@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { outfit } from "@/lib/fonts";
@@ -53,22 +54,20 @@ export function Footer() {
     return (
         <footer className="relative w-full bg-black pt-20 pb-8 px-4 md:px-8 overflow-hidden">
             {/* CTA Section */}
-            <div className="max-w-[1400px] mx-auto mb-20 relative">
+            <div className="max-w-[1400px] mx-auto mb-20 relative px-6 md:px-0">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-                    <div className="relative z-10 flex items-center gap-4">
-                        <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white/10">
+                    <div className="relative z-10 flex flex-col items-center md:items-start gap-4 text-center md:text-left">
+                        <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 mb-2">
                             <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover grayscale" />
                         </div>
-                        <h2 className={cn(outfit.className, "text-5xl md:text-8xl font-bold tracking-tighter text-white")}>
-                            Let's create <br /> something real.
+                        <h2 className={cn(outfit.className, "text-5xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9]")}>
+                            Let's create <br />
+                            <span className="text-zinc-600">something real.</span>
                         </h2>
                     </div>
-                    {/* Glowing Orb */}
-                    <div className="relative w-64 h-64 md:w-96 md:h-96 pointer-events-none">
-                        <div className="absolute inset-0 bg-blue-500/30 rounded-full blur-[100px] animate-pulse" />
-                        <div className="absolute inset-10 bg-indigo-500/20 rounded-full blur-[80px]" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 rounded-full shadow-[0_0_50px_rgba(59,130,246,0.3)]" />
-                    </div>
+
+                    {/* Interactive Magnetic Orb */}
+                    <MagneticOrb />
                 </div>
             </div>
 
@@ -109,7 +108,7 @@ export function Footer() {
             </div>
 
             {/* Bottom Bar */}
-            <div className="max-w-[1400px] mx-auto mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-500 text-xs font-medium uppercase tracking-wider">
+            <div className="max-w-[1400px] mx-auto mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-500 text-xs font-medium uppercase tracking-wider px-4 md:px-0">
                 <p>© 2026 ONKAR YAGLEWAD. ALL RIGHTS RESERVED.</p>
 
                 <div className="flex items-center gap-6">
@@ -127,5 +126,57 @@ export function Footer() {
                 </div>
             </div>
         </footer>
+    );
+}
+
+function MagneticOrb() {
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [position, setPosition] = React.useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const { clientX, clientY } = e;
+        const { left, top, width, height } = ref.current?.getBoundingClientRect() ?? { left: 0, top: 0, width: 0, height: 0 };
+        const center = { x: left + width / 2, y: top + height / 2 };
+
+        // Calculate distance from center
+        const distance = { x: clientX - center.x, y: clientY - center.y };
+
+        // Magnetic pull (dampened)
+        setPosition({ x: distance.x * 0.1, y: distance.y * 0.1 });
+    };
+
+    const handleMouseLeave = () => {
+        setPosition({ x: 0, y: 0 });
+    };
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            animate={{ x: position.x, y: position.y }}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+            className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center cursor-pointer group"
+        >
+            {/* Outer Glow (Ambient) */}
+            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-[80px] group-hover:bg-purple-500/20 transition-colors duration-700" />
+
+            {/* The Ring itself */}
+            <div className="absolute inset-4 rounded-full border border-white/10 group-hover:border-white/30 transition-colors duration-500 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-sm overflow-hidden">
+                {/* Inner colored sheen */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-500/10 to-purple-500/10 opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+
+            {/* Bright Halo Edge */}
+            <motion.div
+                className="absolute inset-4 rounded-full border border-white/5 opacity-50"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                style={{ borderTopColor: "rgba(255,255,255,0.3)", borderLeftColor: "transparent" }}
+            />
+
+            {/* Core */}
+            <div className="w-3 h-3 bg-white rounded-full shadow-[0_0_20px_white] group-hover:scale-150 transition-transform duration-500" />
+        </motion.div>
     );
 }
