@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { Command, Mail, ChevronDown } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
     motion,
     AnimatePresence,
@@ -104,6 +104,7 @@ export function Header() {
     const [open, setOpen] = useState(false);
     const [hoveredNav, setHoveredNav] = useState<string | null>(null);
     const pathname = usePathname();
+    const router = useRouter();
     const isHome = pathname === "/";
 
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -119,6 +120,14 @@ export function Header() {
     const handleMouseLeave = () => {
         mouseX.set(0);
         mouseY.set(0);
+    };
+
+    const handleProfileClick = () => {
+        if (isHome) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            router.push("/");
+        }
     };
 
     const spotlightBackground = useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.15), transparent 80%)`;
@@ -152,7 +161,10 @@ export function Header() {
                         transition={LIQUID_SPRING}
                         className="relative flex items-center justify-center overflow-hidden"
                     >
-                        <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm">
+                        <button
+                            onClick={handleProfileClick}
+                            className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm cursor-pointer hover:scale-105 transition-transform duration-300"
+                        >
                             <AnimatePresence mode="wait">
                                 {(isScrolled || !isHome) && (
                                     <motion.img
@@ -167,7 +179,7 @@ export function Header() {
                                     />
                                 )}
                             </AnimatePresence>
-                        </div>
+                        </button>
                     </motion.div>
 
                     {/* Separator - Visible only on scroll */}
