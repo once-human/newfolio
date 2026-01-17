@@ -96,10 +96,10 @@ export function Hero() {
                     <Code2 className="w-5 h-5 text-blue-500" strokeWidth={1.5} />
                     <div className="flex flex-col items-center text-center font-sans">
                         <span className="text-base font-normal leading-6 text-[#EDEDED] uppercase tracking-wide">
-                            Full Stack Dev,
+                            Building Apps,
                         </span>
                         <span className="text-base font-normal leading-6 text-zinc-500 uppercase tracking-wide">
-                            Web & Apps
+                            & Websites
                         </span>
                     </div>
                 </div>
