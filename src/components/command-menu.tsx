@@ -82,7 +82,7 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={OPEN_SPRING}
-                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-black/60 backdrop-blur-3xl shadow-2xl flex flex-col min-h-[550px]"
+                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#0a0a0a]/75 backdrop-blur-3xl shadow-2xl flex flex-col min-h-[550px]"
                     >
                         <Command
                             className="w-full bg-transparent flex flex-col h-full"
@@ -151,7 +151,7 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                             </Command.List>
 
                             {/* Footer - Opaque Background to Contrast Glass Body */}
-                            <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.08] text-[10px] text-white/30 font-medium tracking-wider bg-black/40 backdrop-blur-xl">
+                            <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.08] text-[10px] text-white/30 font-medium tracking-wider bg-black/50 backdrop-blur-xl">
                                 <div className="flex gap-4 ml-1">
                                     <span className="cursor-pointer hover:text-white/50 transition-colors">Privacy</span>
                                     <span className="cursor-pointer hover:text-white/50 transition-colors">Terms</span>
