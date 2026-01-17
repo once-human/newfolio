@@ -198,6 +198,7 @@ export function Header() {
                 {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
                 <motion.div
                     layout
+                    layoutId="navigation-pill"
                     className={
                         cn(
                             "relative hidden md:flex items-center pointer-events-auto",
