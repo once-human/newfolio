@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { Smile, X, MapPin, Code2, Rocket } from "lucide-react";
+import { Smile, X, MapPin, Code2 } from "lucide-react";
 
 export function Hero() {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -93,13 +93,13 @@ export function Hero() {
 
             <div className="absolute bottom-12 right-12 hidden md:block">
                 <div className="flex flex-col items-center gap-2">
-                    <Rocket className="w-5 h-5 text-blue-500" strokeWidth={1.5} />
+                    <Code2 className="w-5 h-5 text-blue-500" strokeWidth={1.5} />
                     <div className="flex flex-col items-center text-center font-sans">
                         <span className="text-base font-normal leading-6 text-[#EDEDED] uppercase tracking-wide">
-                            Product Engineer,
+                            Full Stack Dev,
                         </span>
                         <span className="text-base font-normal leading-6 text-zinc-500 uppercase tracking-wide">
-                            Build & Ship
+                            & Designer
                         </span>
                     </div>
                 </div>
