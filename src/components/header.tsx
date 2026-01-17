@@ -162,7 +162,7 @@ export function Header() {
             >
                 {/* Main Pill Container */}
                 <motion.div
-                    whileHover={{ scale: 1.02, backgroundColor: "rgba(20, 20, 20, 0.6)" }}
+                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     className="relative hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] overflow-hidden"
                 >
