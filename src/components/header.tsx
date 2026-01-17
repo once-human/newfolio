@@ -115,7 +115,7 @@ export function Header() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                     {/* Dynamic Image Slot - With Backdrop Blur */}
-                    <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm border border-white/5">
+                    <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm">
                         <AnimatePresence>
                             {isScrolled && (
                                 <motion.img
@@ -143,7 +143,7 @@ export function Header() {
                     <motion.div
                         animate={{ x: isScrolled ? 0 : -20 }}
                         transition={LIQUID_SPRING}
-                        className="hidden md:flex items-center gap-3 px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-md border border-white/5"
+                        className="hidden md:flex items-center gap-3 px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-md"
                     >
                         <div className="relative flex h-2 w-2 items-center justify-center">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
