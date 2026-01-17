@@ -153,63 +153,68 @@ export function Header() {
             {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
             <motion.div
                 layout
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                ref={ref}
-                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
+                className={cn(
+                    "relative hidden md:flex items-center pointer-events-auto",
+                    isScrolled ? "justify-self-center" : "justify-self-end"
+                )}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{
                     type: "spring",
                     stiffness: 120,
                     damping: 25,
                     mass: 1
                 }}
-                className={cn(
-                    "relative hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] overflow-hidden pointer-events-auto group/pill",
-                    isScrolled ? "justify-self-center" : "justify-self-end"
-                )}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
             >
-
-                {/* Spotlight Effect Layer */}
+                {/* Visual Glass Pill */}
                 <motion.div
-                    className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
-                    style={{ background: spotlightBackground }}
-                />
-
-                {/* Navigation Links */}
-                <nav className="flex items-center relative pl-1 z-10">
-                    {navItems.map((item) => (
-                        <NavItem key={item.name} item={item} />
-                    ))}
-                </nav>
-
-                {/* Divider */}
-                <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
-
-                {/* Theme Toggle */}
-                <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                    ref={ref}
+                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                     transition={IOS_SPRING}
-                    className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group z-10"
+                    className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] overflow-hidden group/pill"
                 >
-                    <Moon className="w-4 h-4" />
-                </motion.button>
+                    {/* Spotlight Effect Layer */}
+                    <motion.div
+                        className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
+                        style={{ background: spotlightBackground }}
+                    />
 
-                {/* Book a Call Button */}
-                <motion.div
-                    className="z-10"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={IOS_SPRING}
-                >
-                    <Link
-                        href="#contact"
-                        className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
+                    {/* Navigation Links */}
+                    <nav className="flex items-center relative pl-1 z-10">
+                        {navItems.map((item) => (
+                            <NavItem key={item.name} item={item} />
+                        ))}
+                    </nav>
+
+                    {/* Divider */}
+                    <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
+
+                    {/* Theme Toggle */}
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        transition={IOS_SPRING}
+                        className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group z-10"
                     >
-                        Book a Call
-                    </Link>
+                        <Moon className="w-4 h-4" />
+                    </motion.button>
+
+                    {/* Book a Call Button */}
+                    <motion.div
+                        className="z-10"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={IOS_SPRING}
+                    >
+                        <Link
+                            href="#contact"
+                            className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
+                        >
+                            Book a Call
+                        </Link>
+                    </motion.div>
                 </motion.div>
             </motion.div>
 
