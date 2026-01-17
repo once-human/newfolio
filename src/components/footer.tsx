@@ -56,13 +56,17 @@ export function Footer() {
             {/* CTA Section */}
             <div className="max-w-[1400px] mx-auto mb-20 relative px-6 md:px-0">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-                    <div className="relative z-10 flex flex-row items-center gap-6 md:gap-8 text-left">
-                        <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 shrink-0">
-                            <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover grayscale" />
+                    <div className="relative z-10 flex flex-col items-start gap-0 text-left">
+                        <div className="flex flex-row items-center gap-6 md:gap-8">
+                            <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 shrink-0">
+                                <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover grayscale" />
+                            </div>
+                            <h2 className={cn(outfit.className, "text-5xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9]")}>
+                                Let's create
+                            </h2>
                         </div>
-                        <h2 className={cn(outfit.className, "text-5xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9]")}>
-                            Let's create <br />
-                            <span className="text-zinc-600">something real.</span>
+                        <h2 className={cn(outfit.className, "text-5xl md:text-9xl font-bold tracking-tighter text-zinc-600 leading-[0.9]")}>
+                            something real.
                         </h2>
                     </div>
 
@@ -139,8 +143,12 @@ function MagneticOrb() {
         const { clientX, clientY } = e;
         const { left, top, width, height } = ref.current?.getBoundingClientRect() ?? { left: 0, top: 0, width: 0, height: 0 };
         const center = { x: left + width / 2, y: top + height / 2 };
+
+        // Calculate distance from center
         const distance = { x: clientX - center.x, y: clientY - center.y };
-        setPosition({ x: distance.x * 0.1, y: distance.y * 0.1 });
+
+        // Magnetic pull (dampened but stronger now)
+        setPosition({ x: distance.x * 0.3, y: distance.y * 0.3 });
     };
 
     const handleMouseLeave = () => {
