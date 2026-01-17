@@ -45,6 +45,16 @@ const TRANSITION_PROPS = {
 
 export default function TransitionWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const frozenChildren = useRef(new Map<string, React.ReactNode>()).current;
+
+    // Cache the children for this pathname if not already cached
+    // This ensures we keep the exact React Element associated with this path
+    if (!frozenChildren.has(pathname)) {
+        frozenChildren.set(pathname, children);
+    }
+
+    // Cleanup aggressive caching? For now, let's keep it simple. 
+    // In a real app we might want to limit size, but for a portfolio it's fine.
 
     return (
         // Grid Stack Container: Forces overlap without absolute positioning
@@ -60,7 +70,7 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
                     // Force grid placement
                     className="col-start-1 row-start-1 min-h-screen w-full"
                 >
-                    <FrozenRoute>{children}</FrozenRoute>
+                    <FrozenRoute>{frozenChildren.get(pathname) ?? children}</FrozenRoute>
                 </motion.div>
             </AnimatePresence>
         </div>
