@@ -15,17 +15,8 @@ export function Hero() {
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const scrolled = latest > 100;
-        if (scrolled !== isScrolled) {
-            setIsScrolled(scrolled);
-            if (scrolled) {
-                hasScrolledRef.current = true;
-            } else {
-                // Return to Top: Break layout connection to force Fade In (instead of Fly)
-                setLayoutId(undefined);
-                // Re-arm connection after animation for next scroll down
-                setTimeout(() => setLayoutId("hero-profile-img"), 500);
-            }
-        }
+        setIsScrolled(scrolled);
+        if (scrolled) hasScrolledRef.current = true;
     });
 
     return (
@@ -43,25 +34,27 @@ export function Hero() {
                 >
                     <span className="relative flex items-center justify-center">
                         <span className="relative z-10">O</span>
-                        <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em]">
-                            {!isScrolled && (
-                                <motion.img
-                                    layoutId={layoutId}
-                                    onClick={() => setIsExpanded(true)}
-                                    // Initial Load: Scale 0.5 -> 1 (Zoom)
-                                    // Scroll Return: Scale 1 -> 1 (No Zoom, just Fade)
-                                    initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={
-                                        hasScrolledRef.current
-                                            ? { duration: 0.4, ease: "easeOut" } // Smooth Re-entry
-                                            : { delay: 0.5, type: "spring", stiffness: 100 } // Original Delay + Pop
-                                    }
-                                    src="/assets/me.png"
-                                    alt="Profile"
-                                    className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
-                                />
-                            )}
+                        <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em] flex items-center justify-center">
+                            <AnimatePresence>
+                                {!isScrolled && (
+                                    <motion.img
+                                        key="hero-profile"
+                                        onClick={() => setIsExpanded(true)}
+                                        // Initial: Zoom from 0.5. Re-entry: Fade from 1.
+                                        initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                                        transition={
+                                            hasScrolledRef.current
+                                                ? { duration: 0.4, ease: "easeOut" }
+                                                : { delay: 0.5, type: "spring", stiffness: 100 }
+                                        }
+                                        src="/assets/me.png"
+                                        alt="Profile"
+                                        className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
+                                    />
+                                )}
+                            </AnimatePresence>
                         </span>
                     </span>
                     NKA
