@@ -26,7 +26,6 @@ export function Hero() {
                         <span className="relative z-10">O</span>
                         <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em]">
                             <motion.img
-                                layoutId="hero-profile-img"
                                 onClick={() => setIsExpanded(true)}
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 animate={{ opacity: 1, scale: 1 }}
