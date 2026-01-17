@@ -15,7 +15,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ type: "spring", stiffness: 170, damping: 26, mass: 1.6 }}
-                    className="text-[12vw] sm:text-[15vw] font-black leading-none tracking-tighter text-white mix-blend-difference select-none"
+                    className="text-[15vw] md:text-[256px] font-black leading-none md:leading-[256px] tracking-tighter text-white mix-blend-difference select-none"
                 >
                     ONKAR
                 </motion.h1>
@@ -32,10 +32,10 @@ export function Hero() {
                     }}
                     className="mt-8 flex flex-col items-center gap-2"
                 >
-                    <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
+                    <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.2em] text-white/40">
                         <span>I Design And Build Products That</span>
                     </div>
-                    <div className="font-serif text-4xl sm:text-6xl text-white italic tracking-tight">
+                    <div className="font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal">
                         deliver real impact.
                     </div>
                 </motion.div>
