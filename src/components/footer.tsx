@@ -156,27 +156,11 @@ function MagneticOrb() {
             onMouseLeave={handleMouseLeave}
             animate={{ x: position.x, y: position.y }}
             transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-            className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center cursor-pointer group"
+            className="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center cursor-pointer group"
         >
-            {/* Outer Glow (Ambient) */}
-            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-[80px] group-hover:bg-purple-500/20 transition-colors duration-700" />
-
-            {/* The Ring itself */}
-            <div className="absolute inset-4 rounded-full border border-white/10 group-hover:border-white/30 transition-colors duration-500 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-sm overflow-hidden">
-                {/* Inner colored sheen */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-500/10 to-purple-500/10 opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
-
-            {/* Bright Halo Edge */}
-            <motion.div
-                className="absolute inset-4 rounded-full border border-white/5 opacity-50"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                style={{ borderTopColor: "rgba(255,255,255,0.3)", borderLeftColor: "transparent" }}
-            />
-
-            {/* Core */}
-            <div className="w-3 h-3 bg-white rounded-full shadow-[0_0_20px_white] group-hover:scale-150 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-blue-500/30 rounded-full blur-[100px] animate-pulse group-hover:bg-blue-500/40 transition-colors duration-500" />
+            <div className="absolute inset-10 bg-indigo-500/20 rounded-full blur-[80px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 rounded-full shadow-[0_0_50px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500" />
         </motion.div>
     );
 }
