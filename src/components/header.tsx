@@ -25,6 +25,7 @@ const navItems = [
 
 // Apple-style "Fluid" Spring Config
 const IOS_SPRING = { type: "spring", mass: 1, stiffness: 170, damping: 26 } as const;
+const LIQUID_SPRING = { type: "spring", mass: 1, stiffness: 120, damping: 25 } as const;
 
 function NavItem({ item }: { item: { name: string; href: string; isDropdown?: boolean } }) {
     const pathname = usePathname();
@@ -117,7 +118,7 @@ export function Header() {
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0 }}
-                                transition={{ type: "spring", stiffness: 170, damping: 26 }}
+                                transition={LIQUID_SPRING}
                                 src="/assets/me.png"
                                 alt="Small Profile"
                                 className="absolute w-8 h-8 object-cover rounded-full"
@@ -136,7 +137,7 @@ export function Header() {
 
                 <motion.div
                     animate={{ x: isScrolled ? 0 : -20 }}
-                    transition={IOS_SPRING}
+                    transition={LIQUID_SPRING}
                     className="hidden md:flex items-center gap-3"
                 >
                     <div className="relative flex h-2 w-2 items-center justify-center">
@@ -159,12 +160,7 @@ export function Header() {
                 )}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 120,
-                    damping: 25,
-                    mass: 1
-                }}
+                transition={LIQUID_SPRING}
             >
                 {/* Visual Glass Pill */}
                 <motion.div
