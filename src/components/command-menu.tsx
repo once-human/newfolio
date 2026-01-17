@@ -13,7 +13,9 @@ import {
     Github,
     Twitter,
     Linkedin,
-    CornerDownLeft
+    CornerDownLeft,
+    Shield,
+    FileText
 } from "lucide-react";
 
 // Apple-style "Fluid" Spring Config for Pop Animation
@@ -133,6 +135,17 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                                     </CommandItem>
                                     <CommandItem title="LinkedIn" subtitle="Connect with me" value="linkedin" onSelect={() => runCommand(() => window.open("https://linkedin.com", "_blank"))} activeValue={value} setValue={setValue}>
                                         <Linkedin className="mr-3 h-4 w-4" />
+                                    </CommandItem>
+                                </Command.Group>
+
+                                <Command.Separator className="my-2 h-[1px] bg-white/[0.04] mx-2" />
+
+                                <Command.Group heading="Legal" className="text-[10px] text-white/20 font-medium mb-2 px-2 mt-2 select-none">
+                                    <CommandItem title="Privacy Policy" subtitle="Data handling" value="privacy" onSelect={() => runCommand(() => router.push("/privacy"))} activeValue={value} setValue={setValue}>
+                                        <Shield className="mr-3 h-4 w-4" />
+                                    </CommandItem>
+                                    <CommandItem title="Terms of Service" subtitle="Usage rules" value="terms" onSelect={() => runCommand(() => router.push("/terms"))} activeValue={value} setValue={setValue}>
+                                        <FileText className="mr-3 h-4 w-4" />
                                     </CommandItem>
                                 </Command.Group>
                             </Command.List>
