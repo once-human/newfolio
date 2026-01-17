@@ -81,8 +81,8 @@ export function Footer() {
                         </h2>
                     </div>
 
-                    {/* Interactive Magnetic Orb - Shifted Down */}
-                    <div className="pb-20 translate-y-10 md:translate-y-20">
+                    {/* Interactive Magnetic Orb - Shifted Down Slightly */}
+                    <div className="pb-20 translate-y-4 md:translate-y-10">
                         <MagneticOrb />
                     </div>
                 </div>
