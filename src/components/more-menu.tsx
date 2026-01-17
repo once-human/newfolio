@@ -41,7 +41,7 @@ export function MoreMenu() {
             <motion.div className="flex-1 relative" whileHover="hover">
                 <Link
                     href="/labs"
-                    className="group relative h-full w-full bg-gradient-to-br from-indigo-600 to-violet-700 rounded-2xl p-5 flex flex-col justify-end overflow-hidden hover:scale-[1.02] transition-transform duration-300"
+                    className="group relative h-full w-full bg-gradient-to-br from-sky-500/30 to-emerald-600/30 border border-sky-500/20 rounded-2xl p-5 flex flex-col justify-end overflow-hidden hover:scale-[1.02] transition-transform duration-300"
                 >
                     {/* Background Decor - Interactive Flask */}
                     <motion.div
