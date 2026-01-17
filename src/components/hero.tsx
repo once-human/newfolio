@@ -43,7 +43,11 @@ export function Hero() {
                                     // Scroll Return: Scale 1 -> 1 (No Zoom, just Fade)
                                     initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                    transition={
+                                        hasScrolledRef.current
+                                            ? { duration: 0.4, ease: "easeOut" } // Smooth Re-entry
+                                            : { delay: 0.5, type: "spring", stiffness: 100 } // Original Delay + Pop
+                                    }
                                     src="/assets/me.png"
                                     alt="Profile"
                                     className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
