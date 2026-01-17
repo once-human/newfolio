@@ -64,7 +64,7 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                 <motion.div
                     className="fixed inset-0 z-[100] flex items-center justify-center px-4"
                 >
-                    {/* Backdrop - Smooth Blur Animation */}
+                    {/* Backdrop - Smooth Blur Animation (Open & Close) */}
                     <motion.div
                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                         animate={{ opacity: 1, backdropFilter: "blur(2px)" }}
@@ -74,13 +74,13 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
                         onClick={() => setOpen(() => false)}
                     />
 
-                    {/* Modal - Refined Liquid Glass (slightly more transparent: /75) */}
+                    {/* Modal - Perfected Middle Ground Opacity (/85) */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={OPEN_SPRING}
-                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#0a0a0a]/75 backdrop-blur-xl shadow-2xl flex flex-col min-h-[550px]"
+                        className="relative w-full max-w-2xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#0a0a0a]/85 backdrop-blur-xl shadow-2xl flex flex-col min-h-[550px]"
                     >
                         <Command
                             className="w-full bg-transparent flex flex-col h-full"
