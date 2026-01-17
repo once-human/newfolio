@@ -24,14 +24,8 @@ export function Hero() {
 
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{
-                        opacity: 1,
-                        y: [0, -10, 0]
-                    }}
-                    transition={{
-                        opacity: { duration: 0.8, delay: 0.2 },
-                        y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
-                    }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                     className="mt-8 flex flex-col items-center gap-2"
                 >
                     <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.2em] text-white/40">
