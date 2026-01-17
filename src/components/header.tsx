@@ -196,7 +196,7 @@ export function Header() {
                 </motion.div>
 
                 {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
-                < motion.div
+                <motion.div
                     layout
                     className={
                         cn(
@@ -204,8 +204,8 @@ export function Header() {
                             isScrolled ? "justify-self-end" : "justify-self-center"
                         )
                     }
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={LIQUID_SPRING}
                 >
                     {/* Visual Glass Pill */}
