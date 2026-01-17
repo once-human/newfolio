@@ -2,6 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { playfair } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
 export function Hero() {
     return (
@@ -35,7 +37,7 @@ export function Hero() {
                     <div className="flex items-center gap-2 text-[20px] leading-[28px] font-normal uppercase tracking-[0.2em] text-white/40">
                         <span>I Design And Build Products That</span>
                     </div>
-                    <div className="font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal">
+                    <div className={cn(playfair.className, "font-serif text-[48px] md:text-[72px] leading-[72px] text-white italic tracking-tight font-normal")}>
                         deliver real impact.
                     </div>
                 </motion.div>

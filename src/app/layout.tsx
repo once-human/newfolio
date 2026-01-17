@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { AmbientLight } from "@/components/ambient-light";
-
-const outfit = Outfit({ subsets: ["latin"] });
-const playfair = Playfair_Display({ subsets: ["latin"], style: "italic" });
+import { outfit } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Onkar Yaglewad | Portfolio",
@@ -20,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cn(outfit.className, playfair.className, "bg-black text-white antialiased")}>
+      <body className={cn(outfit.className, "bg-black text-white antialiased")}>
         <Header />
         <AmbientLight />
         {children}
