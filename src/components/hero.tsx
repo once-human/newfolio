@@ -1,16 +1,18 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { Smile } from "lucide-react";
+import { Smile, X } from "lucide-react";
 
 export function Hero() {
+    const [isExpanded, setIsExpanded] = useState(false);
+
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-10 text-center">
-            {/* Background/Ambient Effect */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-800/20 via-black to-black" />
+            {/* Background/Ambient Effect - Brighter Sky Blue */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-500/30 via-black to-black" />
 
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center -mt-12">
@@ -23,12 +25,14 @@ export function Hero() {
                     <span className="relative flex items-center justify-center">
                         <span className="relative z-10">O</span>
                         <motion.img
+                            layoutId="hero-profile-img"
+                            onClick={() => setIsExpanded(true)}
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
                             src="/assets/me.png"
                             alt="Profile"
-                            className="absolute z-0 w-[0.4em] h-[0.4em] object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 ml-[0.04em] mt-[0.02em] hover:scale-[3.0]"
+                            className="absolute z-0 w-[0.4em] h-[0.4em] object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 ml-[0.04em] mt-[0.02em] hover:scale-[3.5] hover:z-50 cursor-zoom-in"
                         />
                     </span>
                     NKA
@@ -74,6 +78,36 @@ export function Hero() {
                     </div>
                 </div>
             </div>
+
+            {/* Lightbox / Expanded View */}
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl p-4"
+                        onClick={() => setIsExpanded(false)}
+                    >
+                        <div className="relative w-full max-w-4xl aspect-square md:aspect-video flex items-center justify-center">
+                            <motion.img
+                                layoutId="hero-profile-img"
+                                src="/assets/me.png"
+                                alt="Profile Expanded"
+                                className="w-full h-full object-contain rounded-2xl"
+                                transition={{ type: "spring", stiffness: 170, damping: 26 }}
+                                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself? Maybe user wants to enable that. Let's keep it closeable by background for now but image click should maybe do nothing or close. Usually background click closes.
+                            />
+                            <button
+                                className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                                onClick={() => setIsExpanded(false)}
+                            >
+                                <X size={32} />
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }
