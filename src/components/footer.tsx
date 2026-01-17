@@ -56,8 +56,8 @@ export function Footer() {
             {/* CTA Section */}
             <div className="max-w-[1400px] mx-auto mb-20 relative px-6 md:px-0">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-                    <div className="relative z-10 flex flex-col items-center md:items-start gap-4 text-center md:text-left">
-                        <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 mb-2">
+                    <div className="relative z-10 flex flex-row items-center gap-6 md:gap-8 text-left">
+                        <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 shrink-0">
                             <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover grayscale" />
                         </div>
                         <h2 className={cn(outfit.className, "text-5xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9]")}>
