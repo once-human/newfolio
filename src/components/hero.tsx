@@ -4,22 +4,34 @@ import React from "react";
 import { motion } from "framer-motion";
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+import { Smile } from "lucide-react";
 
 export function Hero() {
     return (
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-20 text-center">
+        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-10 text-center">
             {/* Background/Ambient Effect */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-800/20 via-black to-black" />
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-col items-center">
+            <div className="relative z-10 flex flex-col items-center -mt-12">
                 <motion.h1
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ type: "spring", stiffness: 170, damping: 26, mass: 1.6 }}
-                    className="text-[15vw] md:text-[256px] font-black leading-none md:leading-[256px] tracking-tighter text-white mix-blend-difference select-none"
+                    className="flex items-center text-[15vw] md:text-[256px] font-black leading-none md:leading-[256px] tracking-tighter text-white mix-blend-difference select-none"
                 >
-                    ONKAR
+                    <span className="relative">
+                        O
+                        <motion.div
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ delay: 0.6, type: "spring", stiffness: 200, damping: 15 }}
+                            className="absolute inset-0 flex items-center justify-center"
+                        >
+                            <Smile className="w-[0.5em] h-[0.5em] text-emerald-400 opacity-80" strokeWidth={2.5} />
+                        </motion.div>
+                    </span>
+                    NKAR
                 </motion.h1>
 
                 <motion.div
