@@ -2,23 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useContext, useRef } from "react";
-
-// Frozen Route Context to keep the old page from unmounting
-function FrozenRoute({ children }: { children: React.ReactNode }) {
-    const context = useContext(LayoutRouterContext);
-    const frozen = useRef(context).current;
-
-    // Explicitly return null if no context found (sanity check, though Next.js always provides it)
-    if (!frozen) return <>{children}</>;
-
-    return (
-        <LayoutRouterContext.Provider value={frozen}>
-            {children}
-        </LayoutRouterContext.Provider>
-    );
-}
+import { FrozenRoute } from "@/components/frozen-route";
 
 // Animation Configuration: "Cinematic Slow Motion"
 const ANIMATION_CONFIG = {
@@ -76,7 +60,7 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
                     // Force grid placement
                     className="col-start-1 row-start-1 min-h-screen w-full"
                 >
-                    {children}
+                    <FrozenRoute>{children}</FrozenRoute>
                 </motion.div>
             </AnimatePresence>
         </div>

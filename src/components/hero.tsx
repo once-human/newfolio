@@ -20,9 +20,9 @@ export function Hero() {
     });
 
     return (
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-10 text-center">
+        <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-transparent px-4 pt-10 text-center">
             {/* Background/Ambient Effect - Brighter Sky Blue */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-500/60 via-black to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-500/20 via-black/40 to-transparent" />
 
             {/* Main Content */}
             <div className="relative z-10 flex flex-col items-center -mt-12">
