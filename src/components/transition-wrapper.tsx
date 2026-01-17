@@ -68,25 +68,36 @@ export default function TransitionWrapper({ children }: { children: React.ReactN
     // Always update cache to latest version of active page (handle HMR/renders)
     frozenChildren.set(pathname, children);
 
+    const isHome = pathname === "/";
+
     return (
-        // Grid Stack Container: Forces overlap without absolute positioning
-        <div className="grid grid-cols-1 grid-rows-1 min-h-screen w-full overflow-hidden">
-            {/* mode="sync" (default) allows both to exist simultaneously */}
-            {/* initial={true} ensures the animation runs on first page load too */}
-            <AnimatePresence initial={true} mode="sync">
-                <motion.div
-                    key={pathname}
-                    initial={ANIMATION_CONFIG.initial}
-                    animate={ANIMATION_CONFIG.animate}
-                    exit={ANIMATION_CONFIG.exit}
-                    transition={TRANSITION_PROPS}
-                    // Force grid placement
-                    className="col-start-1 row-start-1 min-h-screen w-full"
-                >
-                    {/* Pass pathname as a PROP so it gets frozen by AnimatePresence */}
-                    <RenderRoute route={pathname} childrenCache={frozenChildren} />
-                </motion.div>
-            </AnimatePresence>
-        </div>
+        <>
+            {/* Global Ambient Background (Blue Light) - Visible on all pages EXCEPT Home */}
+            <motion.div
+                animate={{ opacity: isHome ? 0 : 1 }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="fixed top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[150px] pointer-events-none -translate-y-1/2 z-[-1]"
+            />
+
+            {/* Grid Stack Container: Forces overlap without absolute positioning */}
+            <div className="grid grid-cols-1 grid-rows-1 min-h-screen w-full overflow-hidden">
+                {/* mode="sync" (default) allows both to exist simultaneously */}
+                {/* initial={true} ensures the animation runs on first page load too */}
+                <AnimatePresence initial={true} mode="sync">
+                    <motion.div
+                        key={pathname}
+                        initial={ANIMATION_CONFIG.initial}
+                        animate={ANIMATION_CONFIG.animate}
+                        exit={ANIMATION_CONFIG.exit}
+                        transition={TRANSITION_PROPS}
+                        // Force grid placement
+                        className="col-start-1 row-start-1 min-h-screen w-full"
+                    >
+                        {/* Pass pathname as a PROP so it gets frozen by AnimatePresence */}
+                        <RenderRoute route={pathname} childrenCache={frozenChildren} />
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+        </>
     );
 }
