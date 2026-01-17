@@ -2,9 +2,8 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { Command, Moon, Sun, ChevronDown } from "lucide-react";
+import { Command, Mail, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import {
     motion,
     AnimatePresence,
@@ -40,7 +39,7 @@ function NavItem({ item }: { item: { name: string; href: string; isDropdown?: bo
             onMouseLeave={() => setIsHovered(false)}
             className={cn(
                 "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-300",
-                isActive ? "text-foreground" : "text-muted-foreground/60 hover:text-foreground"
+                isActive ? "text-black" : "text-white/60 hover:text-white"
             )}
         >
             {isActive && (
@@ -81,7 +80,6 @@ export function Header() {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const { scrollY } = useScroll();
-    const { theme, setTheme } = useTheme();
     const [isScrolled, setIsScrolled] = useState(false);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -134,7 +132,7 @@ export function Header() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: isScrolled ? 32 : 0, opacity: isScrolled ? 1 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-[1px] bg-border/50"
+                    className="w-[1px] bg-white/10"
                 />
 
                 <motion.div
@@ -146,7 +144,7 @@ export function Header() {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></span>
                     </div>
-                    <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-muted-foreground/60 font-sans">
+                    <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans">
                         <span>Product Engineer</span>
                         <span className="text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]">Building The Future</span>
                     </div>
@@ -171,7 +169,7 @@ export function Header() {
                     ref={ref}
                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                     transition={IOS_SPRING}
-                    className="relative flex items-center p-1.5 rounded-full bg-secondary/30 border border-border/50 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-border/20 overflow-hidden group/pill"
+                    className="relative flex items-center p-1.5 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] overflow-hidden group/pill"
                 >
                     {/* Spotlight Effect Layer */}
                     <motion.div
@@ -189,15 +187,14 @@ export function Header() {
                     {/* Divider */}
                     <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
 
-                    {/* Theme Toggle */}
+                    {/* Mail / Contact */}
                     <motion.button
-                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         transition={IOS_SPRING}
-                        className="p-3 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary relative group z-10"
+                        className="p-3 rounded-full text-white/50 hover:text-white hover:bg-white/10 relative group z-10"
                     >
-                        {theme === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+                        <Mail className="w-4 h-4" />
                     </motion.button>
 
                     {/* Book a Call Button */}
@@ -208,10 +205,10 @@ export function Header() {
                         transition={IOS_SPRING}
                     >
                         <Link
-                            href="#resume"
-                            className="ml-2 relative block overflow-hidden rounded-full bg-primary px-6 py-2.5 shadow-lg text-sm font-bold text-primary-foreground"
+                            href="#contact"
+                            className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
                         >
-                            Resume
+                            Book a Call
                         </Link>
                     </motion.div>
                 </motion.div>
@@ -228,7 +225,7 @@ export function Header() {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     transition={IOS_SPRING}
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary/30 border border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50 backdrop-blur-3xl shadow-lg ring-1 ring-border/20 group"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.08] backdrop-blur-3xl shadow-lg ring-1 ring-white/[0.03] group"
                 >
                     <Command className="w-5 h-5" />
                 </motion.button>

@@ -10,26 +10,17 @@ export const metadata: Metadata = {
   description: "Creative Engineer building the future.",
 };
 
-import { ThemeProvider } from "@/components/theme-provider";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn(outfit.className, "bg-background text-foreground antialiased")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          <AmbientLight />
-          {children}
-        </ThemeProvider>
+    <html lang="en" className="dark">
+      <body className={cn(outfit.className, "bg-black text-white antialiased")}>
+        <Header />
+        <AmbientLight />
+        {children}
       </body>
     </html>
   );
