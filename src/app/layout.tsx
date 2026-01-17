@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { AmbientLight } from "@/components/ambient-light";
 import { outfit } from "@/lib/fonts";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <Header />
         <AmbientLight />
         {children}
+        <Footer />
       </body>
     </html>
   );

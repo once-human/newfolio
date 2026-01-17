@@ -54,9 +54,9 @@ export function Footer() {
     return (
         <footer className="relative w-full bg-black pt-20 pb-8 px-4 md:px-8 overflow-hidden">
             {/* CTA Section */}
-            <div className="max-w-[1400px] mx-auto mb-20 relative px-6 md:px-0">
+            <div className="max-w-[1400px] mx-auto mb-[-80px] relative px-6 md:px-0 z-0">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-                    <div className="relative z-10 flex flex-col items-start gap-0 text-left">
+                    <div className="relative z-10 flex flex-col items-start gap-0 text-left pointer-events-none">
                         <div className="flex flex-row items-center gap-6 md:gap-8">
                             <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 shrink-0">
                                 <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover grayscale" />
@@ -70,13 +70,21 @@ export function Footer() {
                         </h2>
                     </div>
 
-                    {/* Interactive Magnetic Orb */}
-                    <MagneticOrb />
+                    {/* Interactive Magnetic Orb - Shifted Down */}
+                    <div className="pb-20 translate-y-10 md:translate-y-20">
+                        <MagneticOrb />
+                    </div>
                 </div>
             </div>
 
-            {/* Main Footer Card */}
-            <div className="max-w-[1400px] mx-auto bg-[#0A0A0A] border border-white/5 rounded-[40px] p-8 md:p-16 relative overflow-hidden">
+            {/* Main Footer Card - Liquid Glass */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.01, backgroundColor: "rgba(0,0,0,0.5)" }}
+                transition={{ duration: 0.5 }}
+                className="max-w-[1400px] mx-auto bg-black/40 backdrop-blur-3xl border border-white/10 rounded-[40px] p-8 md:p-16 relative overflow-hidden z-10 shadow-2xl"
+            >
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
                     {/* Brand Column */}
                     <div className="flex flex-col gap-6 max-w-lg">
@@ -109,7 +117,7 @@ export function Footer() {
 
                 {/* Decorative Gradients inside card */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            </div>
+            </motion.div>
 
             {/* Bottom Bar */}
             <div className="max-w-[1400px] mx-auto mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-500 text-xs font-medium uppercase tracking-wider px-4 md:px-0">
