@@ -188,9 +188,22 @@ export function Header() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></span>
                         </div>
-                        <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans whitespace-nowrap">
+                        <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans whitespace-nowrap min-w-[120px]">
                             <span>Product Engineer</span>
-                            <span className="text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]">Building The Future</span>
+                            <div className="relative h-[14px] overflow-hidden">
+                                <AnimatePresence mode="wait">
+                                    <motion.span
+                                        key={isScrolled ? "name" : "tagline"}
+                                        initial={{ y: 20, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        exit={{ y: -20, opacity: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="block text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]"
+                                    >
+                                        {isScrolled ? "Onkar Yaglewad" : "Building The Future"}
+                                    </motion.span>
+                                </AnimatePresence>
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -198,7 +211,6 @@ export function Header() {
                 {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
                 <motion.div
                     layout
-                    key={pathname}
                     className={
                         cn(
                             "relative hidden md:flex items-center pointer-events-auto",
