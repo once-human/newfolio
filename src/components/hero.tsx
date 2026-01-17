@@ -1,13 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Smile, X } from "lucide-react";
 
 export function Hero() {
     const [isExpanded, setIsExpanded] = useState(false);
+    const { scrollY } = useScroll();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        setIsScrolled(latest > 50);
+    });
 
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-4 pt-10 text-center">
@@ -25,15 +31,18 @@ export function Hero() {
                     <span className="relative flex items-center justify-center">
                         <span className="relative z-10">O</span>
                         <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em]">
-                            <motion.img
-                                onClick={() => setIsExpanded(true)}
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-                                src="/assets/me.png"
-                                alt="Profile"
-                                className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
-                            />
+                            {!isScrolled && (
+                                <motion.img
+                                    layoutId="hero-profile-img"
+                                    onClick={() => setIsExpanded(true)}
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
+                                    src="/assets/me.png"
+                                    alt="Profile"
+                                    className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
+                                />
+                            )}
                         </span>
                     </span>
                     NKA

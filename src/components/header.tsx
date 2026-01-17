@@ -9,7 +9,9 @@ import {
     AnimatePresence,
     useMotionValue,
     useSpring,
-    useMotionTemplate
+    useMotionTemplate,
+    useScroll,
+    useMotionValueEvent
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -76,6 +78,12 @@ export function Header() {
     const ref = useRef<HTMLDivElement>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const { scrollY } = useScroll();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        setIsScrolled(latest > 50);
+    });
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const { left, top } = e.currentTarget.getBoundingClientRect();
@@ -93,29 +101,53 @@ export function Header() {
     return (
         <header className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 pointer-events-none">
 
-            {/* Left: Logo */}
+            {/* Left: Dynamic Profile / Label */}
             <motion.div
                 className="flex items-center gap-4 pointer-events-auto"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
-                <Link href="/" className="flex items-center gap-2 group">
-                    <span className="font-serif text-3xl font-bold tracking-tight text-white drop-shadow-2xl">
-                        OY
-                    </span>
-                </Link>
-                <div className="h-8 w-[1px] bg-white/10" />
-                <div className="hidden md:flex items-center gap-3">
+                {/* Dynamic Image Slot */}
+                <div className="relative w-10 h-10 flex items-center justify-center">
+                    <AnimatePresence>
+                        {isScrolled && (
+                            <motion.img
+                                layoutId="hero-profile-img"
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0 }}
+                                transition={{ type: "spring", stiffness: 170, damping: 26 }}
+                                src="/assets/me.png"
+                                alt="Small Profile"
+                                className="absolute w-8 h-8 object-cover rounded-full"
+                            />
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                {/* Separator - Visible only on scroll */}
+                <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: isScrolled ? 32 : 0, opacity: isScrolled ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-[1px] bg-white/10"
+                />
+
+                <motion.div
+                    animate={{ x: isScrolled ? 0 : -20 }}
+                    transition={IOS_SPRING}
+                    className="hidden md:flex items-center gap-3"
+                >
                     <div className="relative flex h-2 w-2 items-center justify-center">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></span>
                     </div>
                     <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans">
-                        <span>Creative Engineer</span>
+                        <span>Product Engineer</span>
                         <span className="text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]">Building The Future</span>
                     </div>
-                </div>
+                </motion.div>
             </motion.div>
 
             {/* Right: Flat Liquid Glass Pill (No Tilt) */}
