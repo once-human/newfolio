@@ -23,8 +23,8 @@ const navItems = [
     { name: "More", href: "#more", isDropdown: true },
 ];
 
-// Apple-style "Liquid Glass" Spring Config - Smoother/Slower
-const IOS_SPRING = { type: "spring", mass: 1, stiffness: 100, damping: 20 } as const;
+// Apple-style "Fluid" Spring Config
+const IOS_SPRING = { type: "spring", mass: 1, stiffness: 170, damping: 26 } as const;
 
 function NavItem({ item }: { item: { name: string; href: string; isDropdown?: boolean } }) {
     const pathname = usePathname();
@@ -108,12 +108,8 @@ export function Header() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
-                {/* Dynamic Image Slot - Collapses width when not scrolled */}
-                <motion.div
-                    animate={{ width: isScrolled ? 40 : 0, marginRight: isScrolled ? 16 : 0 }}
-                    transition={IOS_SPRING}
-                    className="relative h-10 flex items-center justify-center overflow-visible"
-                >
+                {/* Dynamic Image Slot */}
+                <div className="relative w-10 h-10 flex items-center justify-center">
                     <AnimatePresence>
                         {isScrolled && (
                             <motion.img
@@ -121,14 +117,14 @@ export function Header() {
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0 }}
-                                transition={IOS_SPRING}
+                                transition={{ type: "spring", stiffness: 170, damping: 26 }}
                                 src="/assets/me.png"
                                 alt="Small Profile"
-                                className="absolute w-8 h-8 object-cover rounded-full left-1"
+                                className="absolute w-8 h-8 object-cover rounded-full"
                             />
                         )}
                     </AnimatePresence>
-                </motion.div>
+                </div>
 
                 {/* Separator - Visible only on scroll */}
                 <motion.div
@@ -139,7 +135,7 @@ export function Header() {
                 />
 
                 <motion.div
-                    animate={{ x: isScrolled ? 0 : -8 }}
+                    animate={{ x: isScrolled ? 0 : -20 }}
                     transition={IOS_SPRING}
                     className="hidden md:flex items-center gap-3"
                 >
@@ -165,7 +161,11 @@ export function Header() {
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
             >
                 {/* Main Pill Container */}
-                <div className="relative hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] overflow-hidden">
+                <motion.div
+                    whileHover={{ scale: 1.02, backgroundColor: "rgba(20, 20, 20, 0.6)" }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="relative hidden md:flex items-center p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl ring-1 ring-white/[0.03] overflow-hidden"
+                >
 
                     {/* Spotlight Effect Layer */}
                     <motion.div
@@ -207,7 +207,7 @@ export function Header() {
                             Book a Call
                         </Link>
                     </motion.div>
-                </div>
+                </motion.div>
 
                 {/* Command Button */}
                 <motion.button
