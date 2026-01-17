@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { FrozenRoute } from "@/components/frozen-route";
+import { useRef } from "react";
 
 // Animation Configuration: "Cinematic Slow Motion"
 const ANIMATION_CONFIG = {
