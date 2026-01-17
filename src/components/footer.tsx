@@ -225,18 +225,18 @@ function MagneticOrb() {
 
 const FloatingText = ({ text, x, y, rotation, onComplete }: { text: string; x: number; y: number; rotation: number; onComplete: () => void }) => {
     React.useEffect(() => {
-        const timer = setTimeout(onComplete, 600); // Faster timeout
+        const timer = setTimeout(onComplete, 1000); // Slower timeout
         return () => clearTimeout(timer);
     }, [onComplete]);
 
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.5, x, y, rotate: rotation }}
-            animate={{ opacity: 1, scale: 1.5, x: x + (Math.random() - 0.5) * 30, y: y }} // Punch up, minimal drift
-            exit={{ opacity: 0, scale: 0, y: y - 20 }} // Shrink out quickly
-            transition={{ duration: 0.5, type: "spring", stiffness: 300, damping: 15 }} // Punchy spring
+            animate={{ opacity: 1, scale: 1.25, x: x + (Math.random() - 0.5) * 30, y: y }} // Softer punch
+            exit={{ opacity: 0, scale: 0, y: y - 20 }}
+            transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 15 }} // Softer spring
             className={cn("absolute whitespace-nowrap text-white font-bold tracking-tighter pointer-events-none z-50", outfit.className)}
-            style={{ fontSize: "2.5rem", textShadow: "0 4px 12px rgba(0,0,0,0.5)" }} // Slightly larger text
+            style={{ fontSize: "1.75rem", textShadow: "0 4px 12px rgba(0,0,0,0.5)" }} // Smaller text
         >
             {text}
         </motion.div>
