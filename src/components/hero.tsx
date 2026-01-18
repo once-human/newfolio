@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { playfair } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Smile, X, MapPin, Code2 } from "lucide-react";
+import { ParticleBurst } from "./particle-burst";
 
 export function Hero() {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -12,6 +13,21 @@ export function Hero() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [layoutId, setLayoutId] = useState<string | undefined>("hero-profile-img");
     const hasScrolledRef = React.useRef(false);
+
+    const [bursts, setBursts] = useState<{ id: number }[]>([]);
+
+    const handleProfileClick = (e: React.MouseEvent) => {
+        // Trigger confetti
+        setBursts(prev => [...prev, { id: Date.now() }]);
+        // Still allow expansion if the user wants? 
+        // Or maybe just confetti as requested "if click inside O on the image... add same confetti".
+        // Let's keep expansion as a side effect or separate.
+        // setIsExpanded(true); // Keeping it for now.
+    };
+
+    const removeBurst = (id: number) => {
+        setBursts(prev => prev.filter(b => b.id !== id));
+    };
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const scrolled = latest > 100;
@@ -36,22 +52,30 @@ export function Hero() {
                         <span className="absolute z-0 w-[0.4em] h-[0.4em] ml-[0.04em] mt-[0.02em] flex items-center justify-center">
                             <AnimatePresence>
                                 {!isScrolled && (
-                                    <motion.img
-                                        key="hero-profile"
-                                        onClick={() => setIsExpanded(true)}
-                                        // Initial: Zoom from 0.5. Re-entry: Fade from 1.
+                                    <motion.div
+                                        key="hero-profile-container"
+                                        onClick={handleProfileClick}
                                         initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
                                         transition={
                                             hasScrolledRef.current
                                                 ? { duration: 0.4, ease: "easeOut" }
-                                                : { delay: 2.2, type: "spring", stiffness: 100 } // 2.2s delay for initial load
+                                                : { delay: 2.2, type: "spring", stiffness: 100 }
                                         }
-                                        src="/assets/me.png"
-                                        alt="Profile"
-                                        className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50 cursor-zoom-in"
-                                    />
+                                        className="relative w-full h-full cursor-pointer flex items-center justify-center"
+                                    >
+                                        <motion.img
+                                            src="/assets/me.png"
+                                            alt="Profile"
+                                            className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50"
+                                        />
+                                        <AnimatePresence>
+                                            {bursts.map((burst) => (
+                                                <ParticleBurst key={burst.id} onComplete={() => removeBurst(burst.id)} />
+                                            ))}
+                                        </AnimatePresence>
+                                    </motion.div>
                                 )}
                             </AnimatePresence>
                         </span>

@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { CommandMenu } from "./command-menu";
 import { MoreMenu } from "./more-menu";
+import { useScrollContext } from "@/context/scroll-context";
 
 const navItems = [
     { name: "Home", href: "/" },
@@ -106,6 +107,7 @@ export function Header() {
     const pathname = usePathname();
     const router = useRouter();
     const isHome = pathname === "/";
+    const { isFooterProfileVisible } = useScrollContext();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         setIsScrolled(latest > 100);
@@ -138,8 +140,6 @@ export function Header() {
             <header className="fixed top-6 left-0 right-0 z-[60] grid grid-cols-[auto_1fr_auto] items-center px-6 md:px-12 pointer-events-none gap-4">
 
                 {/* Left: Dynamic Profile / Label */}
-                {/* Left: Dynamic Profile / Label */}
-                {/* Left: Dynamic Profile / Label */}
                 <motion.div
                     className="flex items-center pointer-events-auto justify-self-start"
                     initial={{ opacity: 0, x: -20 }}
@@ -149,15 +149,21 @@ export function Header() {
                     {/* Dynamic Image Slot */}
                     <motion.div
                         initial={isHome ? { width: 0, opacity: 0, marginRight: 0 } : { width: 40, opacity: 1, marginRight: 0 }}
-                        animate={isHome ? {
-                            width: isScrolled ? 40 : 0,
-                            opacity: isScrolled ? 1 : 0,
-                            marginRight: isScrolled ? 16 : 0
-                        } : {
-                            width: 40,
-                            opacity: 1,
-                            marginRight: 16
-                        }}
+                        animate={
+                            isFooterProfileVisible ? {
+                                width: 0,
+                                opacity: 0,
+                                marginRight: 0
+                            } : (isHome ? {
+                                width: isScrolled ? 40 : 0,
+                                opacity: isScrolled ? 1 : 0,
+                                marginRight: isScrolled ? 16 : 0
+                            } : {
+                                width: 40,
+                                opacity: 1,
+                                marginRight: 16
+                            })
+                        }
                         transition={LIQUID_SPRING}
                         className="relative flex items-center justify-center overflow-hidden"
                     >
@@ -166,7 +172,7 @@ export function Header() {
                             className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm cursor-pointer hover:scale-105 transition-transform duration-300"
                         >
                             <AnimatePresence mode="wait">
-                                {(isScrolled || !isHome) && (
+                                {(isScrolled || !isHome) && !isFooterProfileVisible && (
                                     <motion.img
                                         layoutId="hero-profile-img"
                                         initial={{ opacity: 0, scale: 0 }}
@@ -186,9 +192,9 @@ export function Header() {
                     <motion.div
                         initial={{ height: 0, opacity: 0, width: 0 }}
                         animate={{
-                            height: isScrolled ? 32 : 0,
-                            opacity: isScrolled ? 1 : 0,
-                            width: isScrolled ? 1 : 0
+                            height: (isScrolled && !isFooterProfileVisible) ? 32 : 0,
+                            opacity: (isScrolled && !isFooterProfileVisible) ? 1 : 0,
+                            width: (isScrolled && !isFooterProfileVisible) ? 1 : 0
                         }}
                         transition={{ duration: 0.3 }}
                         className="bg-white/10"
@@ -243,12 +249,10 @@ export function Header() {
                 {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
                 <motion.div
                     layout
-                    className={
-                        cn(
-                            "relative hidden md:flex items-center pointer-events-auto",
-                            isScrolled ? "justify-self-end" : "justify-self-center"
-                        )
-                    }
+                    className={cn(
+                        "relative hidden md:flex items-center pointer-events-auto",
+                        isScrolled ? "justify-self-end" : "justify-self-center"
+                    )}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={LIQUID_SPRING}
@@ -267,7 +271,7 @@ export function Header() {
                             className="absolute inset-0 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] hover:ring-white/[0.05] overflow-hidden transition-all duration-500"
                         >
                             {/* Spotlight Effect Layer */}
-                            < motion.div
+                            <motion.div
                                 className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
                                 style={{ background: spotlightBackground }}
                             />
@@ -315,11 +319,11 @@ export function Header() {
                                 </Link>
                             </motion.div>
                         </div>
-                    </div >
-                </motion.div >
+                    </div>
+                </motion.div>
 
                 {/* Right: Command Button (Stays Right) */}
-                < motion.div
+                <motion.div
                     className="justify-self-end pointer-events-auto"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -334,8 +338,8 @@ export function Header() {
                     >
                         <Command className="w-5 h-5" />
                     </motion.button>
-                </motion.div >
-            </header >
+                </motion.div>
+            </header>
         </>
     );
 }

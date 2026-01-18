@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from "fram
 import { outfit } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { Github, Twitter, Linkedin, Instagram, Send, Star } from "lucide-react";
+import { ParticleBurst } from "./particle-burst";
 
 const socialLinks = [
     { icon: Github, href: "https://github.com/onkar", label: "Github" },
@@ -50,11 +51,40 @@ const footerLinks = [
     },
 ];
 
+import { useScrollContext } from "@/context/scroll-context";
+import { useInView } from "framer-motion";
+
+// ... existing imports
+
 export function Footer() {
+    // ... existing mouse hooks
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
+    const [profileBursts, setProfileBursts] = React.useState<{ id: number }[]>([]);
+
+    const handleProfileClick = (e: React.MouseEvent) => {
+        setProfileBursts(prev => [...prev, { id: Date.now() }]);
+    };
+
+    const removeProfileBurst = (id: number) => {
+        setProfileBursts(prev => prev.filter(b => b.id !== id));
+    };
+
+    // Profile Visibility Logic
+    const { setFooterProfileVisible } = useScrollContext();
+    const profileRef = React.useRef(null);
+    const isProfileInView = useInView(profileRef, {
+        amount: 0.5,
+        margin: "0px 0px -40% 0px" // Only trigger when element is above the bottom 40% of screen
+    });
+
+    React.useEffect(() => {
+        setFooterProfileVisible(isProfileInView);
+    }, [isProfileInView, setFooterProfileVisible]);
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        // ... existing logic
         const { left, top } = e.currentTarget.getBoundingClientRect();
         mouseX.set(e.clientX - left);
         mouseY.set(e.clientY - top);
@@ -69,8 +99,22 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10">
                     <div className="relative z-10 flex flex-col items-start gap-0 text-left pointer-events-none">
                         <div className="flex flex-row items-center gap-6 md:gap-8">
-                            <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 shrink-0">
-                                <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover grayscale" />
+                            <div
+                                ref={profileRef}
+                                onClick={handleProfileClick}
+                                className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/10 shrink-0 transition-all duration-700 ease-out cursor-pointer group/profile"
+                                style={{
+                                    filter: isProfileInView ? "grayscale(0%)" : "grayscale(100%)",
+                                    transform: isProfileInView ? "scale(1.05)" : "scale(1)"
+                                }}
+                            >
+                                <img src="/assets/me.png" alt="Onkar" className="w-full h-full object-cover group-hover/profile:scale-110 transition-transform duration-500" />
+
+                                <AnimatePresence>
+                                    {profileBursts.map((burst) => (
+                                        <ParticleBurst key={burst.id} onComplete={() => removeProfileBurst(burst.id)} />
+                                    ))}
+                                </AnimatePresence>
                             </div>
                             <h2 className={cn(outfit.className, "text-5xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9]")}>
                                 Let's create
@@ -250,6 +294,7 @@ function MagneticOrb() {
     );
 }
 
+
 const FloatingText = ({ text, x, y, rotation, onComplete }: { text: string; x: number; y: number; rotation: number; onComplete: () => void }) => {
     React.useEffect(() => {
         const timer = setTimeout(onComplete, 1000); // Slower timeout
@@ -267,55 +312,5 @@ const FloatingText = ({ text, x, y, rotation, onComplete }: { text: string; x: n
         >
             {text}
         </motion.div>
-    );
-};
-
-const ParticleBurst = ({ onComplete }: { onComplete: () => void }) => {
-    // Generate particles
-    const particles = React.useMemo(() => {
-        return Array.from({ length: 20 }).map((_, i) => ({
-            id: i,
-            angle: (i * 360) / 20, // Distribute evenly
-            distance: Math.random() * 100 + 100, // Random distance 100-200px
-            size: Math.random() * 4 + 2, // Random size 2-6px
-            color: i % 2 === 0 ? "bg-white" : "bg-blue-400",
-        }));
-    }, []);
-
-    React.useEffect(() => {
-        const timer = setTimeout(onComplete, 1000);
-        return () => clearTimeout(timer);
-    }, [onComplete]);
-
-    return (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {/* Shockwave Ripple */}
-            <motion.div
-                initial={{ scale: 0.5, opacity: 1, borderWidth: 4 }}
-                animate={{ scale: 2, opacity: 0, borderWidth: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="absolute w-full h-full rounded-full border-blue-500/50"
-            />
-
-            {/* Particles */}
-            {particles.map((p) => (
-                <motion.div
-                    key={p.id}
-                    initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                    animate={{
-                        x: Math.cos((p.angle * Math.PI) / 180) * p.distance,
-                        y: Math.sin((p.angle * Math.PI) / 180) * p.distance,
-                        opacity: 0,
-                        scale: 0,
-                    }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className={cn("absolute rounded-full shadow-[0_0_10px_currentColor]", p.color)}
-                    style={{
-                        width: p.size,
-                        height: p.size,
-                    }}
-                />
-            ))}
-        </div>
     );
 };

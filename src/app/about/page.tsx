@@ -10,19 +10,32 @@ export default function AboutPage() {
             <div className="max-w-4xl mx-auto space-y-24 pb-20">
 
                 {/* Intro Section */}
-                <section className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50">
+                <section className="space-y-8">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                        className="text-4xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50"
+                    >
                         About Me
-                    </h1>
+                    </motion.h1>
                     <div className="text-xl md:text-2xl font-light text-zinc-400 space-y-6 leading-relaxed">
-                        <p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
+                        >
                             I am a <strong className="text-white font-medium">Creative Engineer</strong> oriented towards
                             building high-performance, interactive, and aesthetically pleasing digital experiences.
-                        </p>
-                        <p>
+                        </motion.p>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
+                        >
                             With a deep passion for <span className="text-emerald-400">design perfection</span> and engineering
                             precision, I bridge the gap between imagination and reality.
-                        </p>
+                        </motion.p>
                     </div>
                 </section>
 

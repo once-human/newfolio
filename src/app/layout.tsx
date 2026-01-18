@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Creative Engineer building the future.",
 };
 
+import { ScrollProvider } from "@/context/scroll-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,13 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={cn(outfit.className, "bg-black text-white antialiased")}>
-        <Header />
-        <AmbientLight />
+        <ScrollProvider>
+          <Header />
+          <AmbientLight />
 
-        <TransitionWrapper>
-          {children}
-        </TransitionWrapper>
-        <Footer />
+          <TransitionWrapper>
+            {children}
+          </TransitionWrapper>
+          <Footer />
+        </ScrollProvider>
       </body>
     </html>
   );
