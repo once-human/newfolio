@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { outfit } from "@/lib/fonts";
-import { FlaskConical, Link2, Monitor, Send } from "lucide-react";
+import { FlaskConical, Link2, Monitor, Send, Mail } from "lucide-react";
 
 const subLinks = [
     {
@@ -25,6 +25,12 @@ const subLinks = [
         description: "Get in touch",
         href: "/contact",
         icon: Send,
+    },
+    {
+        name: "Book a Call",
+        description: "Schedule a session",
+        href: "/book-a-call",
+        icon: Mail,
     },
 ];
 

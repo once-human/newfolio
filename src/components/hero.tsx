@@ -54,18 +54,34 @@ export function Hero() {
                                 {!isScrolled && (
                                     <motion.div
                                         key="hero-profile-container"
-                                        onClick={handleProfileClick}
+                                        onClick={(e) => {
+                                            handleProfileClick(e);
+                                            setIsExpanded(true);
+                                        }}
                                         initial={{ opacity: 0, scale: hasScrolledRef.current ? 1 : 0.5 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+                                        exit={{
+                                            opacity: 0,
+                                            scale: hasScrolledRef.current ? 1 : 0.9,
+                                            filter: hasScrolledRef.current ? "none" : "blur(10px)"
+                                        }}
                                         transition={
                                             hasScrolledRef.current
                                                 ? { duration: 0.4, ease: "easeOut" }
-                                                : { delay: 2.2, type: "spring", stiffness: 100 }
+                                                : {
+                                                    opacity: { delay: 1.8, duration: 1.2, ease: "easeOut" },
+                                                    scale: {
+                                                        delay: 3.2,
+                                                        type: "spring",
+                                                        stiffness: 100,
+                                                        damping: 20
+                                                    }
+                                                }
                                         }
-                                        className="relative w-full h-full cursor-pointer flex items-center justify-center"
+                                        className="relative w-full h-full cursor-zoom-in flex items-center justify-center group/profile"
                                     >
                                         <motion.img
+                                            layoutId="hero-profile-img"
                                             src="/assets/me.png"
                                             alt="Profile"
                                             className="w-full h-full object-cover rounded-full grayscale-[0.15] hover:grayscale-0 transition-all duration-500 hover:scale-[3.5] hover:z-50"

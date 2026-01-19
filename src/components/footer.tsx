@@ -32,6 +32,7 @@ const footerLinks = [
             { name: "About Me", href: "/about" },
             { name: "Projects", href: "/projects" },
             { name: "Contact", href: "/contact" },
+            { name: "Book a Call", href: "/book-a-call" },
         ],
     },
     {
@@ -273,9 +274,57 @@ function MagneticOrb() {
             transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
             className="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center cursor-pointer group select-none"
         >
-            <div className="absolute inset-0 bg-blue-500/30 rounded-full blur-[100px] animate-pulse group-hover:bg-blue-500/40 transition-colors duration-500" />
-            <div className="absolute inset-10 bg-indigo-500/20 rounded-full blur-[80px]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 rounded-full shadow-[0_0_50px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500 overflow-visible">
+            {/* Background Glows - Actively Liquid */}
+            <motion.div
+                animate={{
+                    borderRadius: [
+                        "45% 55% 52% 48% / 48% 54% 46% 52%",
+                        "52% 48% 49% 51% / 51% 49% 52% 48%",
+                        "48% 52% 54% 46% / 46% 51% 49% 54%",
+                        "45% 55% 52% 48% / 48% 54% 46% 52%"
+                    ],
+                }}
+                transition={{
+                    duration: 7,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute inset-0 bg-blue-500/30 blur-[100px] animate-pulse group-hover:bg-blue-500/40 transition-colors duration-500"
+            />
+            <motion.div
+                animate={{
+                    borderRadius: [
+                        "52% 48% 49% 51% / 51% 49% 52% 48%",
+                        "48% 52% 54% 46% / 46% 51% 49% 54%",
+                        "45% 55% 52% 48% / 48% 54% 46% 52%",
+                        "52% 48% 49% 51% / 51% 49% 52% 48%"
+                    ],
+                }}
+                transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute inset-10 bg-indigo-500/20 blur-[80px]"
+            />
+
+            {/* Main Orb Shell - Pronounced Liquid Squiggle */}
+            <motion.div
+                animate={{
+                    borderRadius: [
+                        "42% 58% 60% 40% / 45% 45% 55% 55%",
+                        "55% 45% 48% 52% / 52% 55% 45% 48%",
+                        "48% 52% 55% 45% / 45% 48% 52% 55%",
+                        "42% 58% 60% 40% / 45% 45% 55% 55%"
+                    ]
+                }}
+                transition={{
+                    duration: 9,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-white/10 shadow-[0_0_50px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-500 overflow-visible"
+            >
                 {/* Bursts */}
                 <AnimatePresence>
                     {bursts.map((burst) => (
@@ -289,7 +338,7 @@ function MagneticOrb() {
                         <FloatingText key={item.id} text={item.text} x={item.x} y={item.y} rotation={item.rotation} onComplete={() => removeText(item.id)} />
                     ))}
                 </AnimatePresence>
-            </div>
+            </motion.div>
         </motion.div>
     );
 }

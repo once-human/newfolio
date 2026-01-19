@@ -174,7 +174,7 @@ export function Header() {
                             <AnimatePresence mode="wait">
                                 {(isScrolled || !isHome) && !isFooterProfileVisible && (
                                     <motion.img
-                                        layoutId="hero-profile-img"
+                                        layoutId="header-profile-img"
                                         initial={{ opacity: 0, scale: 0 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0 }}
@@ -312,7 +312,7 @@ export function Header() {
                                 transition={IOS_SPRING}
                             >
                                 <Link
-                                    href="#contact"
+                                    href="/book-a-call"
                                     className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
                                 >
                                     Book a Call
