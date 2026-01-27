@@ -35,6 +35,36 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Liquid Glass Utilities - Ultra Premium (Vision Pro Style) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(50px) saturate(190%) contrast(100%);
+  -webkit-backdrop-filter: blur(50px) saturate(190%) contrast(100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.glass-pill {
+  /* Ultra-clear base, letting the blur do the heavy lifting */
+  background: rgba(10, 10, 10, 0.4);
+
+  /* Tripled Blur: Extreme defocusing for that "thick gel" look */
+  backdrop-filter: blur(80px) saturate(220%) contrast(120%);
+  -webkit-backdrop-filter: blur(80px) saturate(220%) contrast(120%);
+
+  box-shadow:
+    /* Deep shadow */
+    0 30px 60px -12px rgba(0, 0, 0, 0.7),
+    /* Edge highlights */
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.05);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Enforce on HTML/Body directly as well for Firefox/Standard */
 html,
 body {
