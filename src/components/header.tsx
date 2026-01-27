@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { Command, Mail, ChevronDown } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,8 +11,7 @@ import {
     useSpring,
     useMotionTemplate,
     useScroll,
-    useMotionValueEvent,
-    useTransform
+    useMotionValueEvent
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CommandMenu } from "./command-menu";
@@ -27,8 +26,9 @@ const navItems = [
     { name: "More", href: "#more", isDropdown: true },
 ];
 
-// Reverting to the original "Snappy" Apple Spring
+// Apple-style "Fluid" Spring Config
 const IOS_SPRING = { type: "spring", mass: 1, stiffness: 170, damping: 26 } as const;
+const LIQUID_SPRING = { type: "spring", mass: 1, stiffness: 120, damping: 25 } as const;
 
 function NavItem({
     item,
@@ -44,21 +44,21 @@ function NavItem({
 
     return (
         <div
-            className="relative z-20"
+            className="relative"
             onMouseEnter={() => onHover(item.name)}
             onMouseLeave={() => onHover(null)}
         >
             <Link
                 href={item.href}
                 className={cn(
-                    "relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-colors duration-300",
-                    isActive ? "text-black" : "text-white/80 hover:text-white"
+                    "relative flex items-center gap-1 px-5 py-2.5 text-sm font-medium transition-colors duration-300",
+                    isActive ? "text-black" : "text-white/60 hover:text-white"
                 )}
             >
                 {isActive && (
                     <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.7)] z-[-1]"
+                        className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] z-0"
                         transition={IOS_SPRING}
                     />
                 )}
@@ -67,7 +67,7 @@ function NavItem({
                     {isHovered && !isActive && (
                         <motion.div
                             layoutId="hoverTab"
-                            className="absolute inset-0 rounded-full bg-white/10 z-[-1] backdrop-blur-md"
+                            className="absolute inset-0 rounded-full bg-white/5 z-0"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -76,16 +76,17 @@ function NavItem({
                     )}
                 </AnimatePresence>
 
-                {/* Text Layer - Pure colors for max visibility */}
+                {/* Ensure text is above background layers */}
                 <span className={cn(
-                    "relative z-10 flex items-center gap-1",
-                    isActive ? "text-black font-semibold" : "text-white group-hover:text-white"
-                )} style={{ textShadow: isActive ? "none" : "0 1px 3px rgba(0,0,0,0.3)" }}>
+                    "relative z-10 flex items-center gap-1 transition-colors duration-500",
+                    isActive ? "text-black" : "text-white/60 group-hover:text-white"
+                )}>
                     {item.name}
-                    {item.isDropdown && <ChevronDown className={`w-3.5 h-3.5 opacity-60 transition-transform duration-300 ${isHovered ? "rotate-180" : ""}`} />}
+                    {item.isDropdown && <ChevronDown className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isHovered ? "rotate-180" : ""}`} />}
                 </span>
             </Link>
 
+            {/* Dropdown Menu */}
             <AnimatePresence>
                 {item.isDropdown && isHovered && (
                     <MoreMenu />
@@ -99,11 +100,6 @@ export function Header() {
     const ref = useRef<HTMLDivElement>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
-
-    // Snappier spotlight tracking
-    const smoothMouseX = useSpring(mouseX, { mass: 0.5, stiffness: 100, damping: 15 });
-    const smoothMouseY = useSpring(mouseY, { mass: 0.5, stiffness: 100, damping: 15 });
-
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
     const [open, setOpen] = useState(false);
@@ -114,7 +110,7 @@ export function Header() {
     const { isFooterProfileVisible } = useScrollContext();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        setIsScrolled(latest > 50);
+        setIsScrolled(latest > 100);
     });
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -136,7 +132,7 @@ export function Header() {
         }
     };
 
-    const spotlightBackground = useMotionTemplate`radial-gradient(400px circle at ${smoothMouseX}px ${smoothMouseY}px, rgba(255,255,255,0.08), transparent 80%)`;
+    const spotlightBackground = useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.15), transparent 80%)`;
 
     return (
         <>
@@ -145,89 +141,94 @@ export function Header() {
 
                 {/* Left: Dynamic Profile / Label */}
                 <motion.div
-                    className="flex items-center pointer-events-auto justify-self-start z-50"
+                    className="flex items-center pointer-events-auto justify-self-start"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
+                    {/* Dynamic Image Slot */}
                     <motion.div
-                        initial={isHome ? { width: 0, opacity: 0, marginRight: 0 } : { width: 44, opacity: 1, marginRight: 0 }}
+                        initial={isHome ? { width: 0, opacity: 0, marginRight: 0 } : { width: 40, opacity: 1, marginRight: 0 }}
                         animate={
-                            isFooterProfileVisible ? { width: 0, opacity: 0, marginRight: 0 }
-                                : (isHome ? {
-                                    width: isScrolled ? 44 : 0,
-                                    opacity: isScrolled ? 1 : 0,
-                                    marginRight: isScrolled ? 12 : 0
-                                } : {
-                                    width: 44,
-                                    opacity: 1,
-                                    marginRight: 12
-                                })
+                            isFooterProfileVisible ? {
+                                width: 0,
+                                opacity: 0,
+                                marginRight: 0
+                            } : (isHome ? {
+                                width: isScrolled ? 40 : 0,
+                                opacity: isScrolled ? 1 : 0,
+                                marginRight: isScrolled ? 16 : 0
+                            } : {
+                                width: 40,
+                                opacity: 1,
+                                marginRight: 16
+                            })
                         }
-                        transition={IOS_SPRING}
+                        transition={LIQUID_SPRING}
                         className="relative flex items-center justify-center overflow-hidden"
                     >
                         <button
                             onClick={handleProfileClick}
-                            // Using glass-pill here to match center exactly
-                            className="relative w-11 h-11 flex items-center justify-center rounded-full glass-pill cursor-pointer hover:scale-105 transition-transform duration-300 group shadow-lg"
+                            className="relative w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-sm cursor-pointer hover:scale-105 transition-transform duration-300"
                         >
                             <AnimatePresence mode="wait">
                                 {(isScrolled || !isHome) && !isFooterProfileVisible && (
                                     <motion.img
                                         layoutId="header-profile-img"
-                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        initial={{ opacity: 0, scale: 0 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.8 }}
-                                        transition={IOS_SPRING}
+                                        exit={{ opacity: 0, scale: 0 }}
+                                        transition={LIQUID_SPRING}
                                         src="/assets/me.png"
                                         alt="Profile"
-                                        className="w-full h-full rounded-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                                        className="w-full h-full rounded-full object-cover grayscale-[0.15]"
                                     />
                                 )}
                             </AnimatePresence>
                         </button>
                     </motion.div>
 
-                    {/* Separator */}
+                    {/* Separator - Visible only on scroll */}
                     <motion.div
                         initial={{ height: 0, opacity: 0, width: 0 }}
                         animate={{
-                            height: (isScrolled && !isFooterProfileVisible) ? 24 : 0,
+                            height: (isScrolled && !isFooterProfileVisible) ? 32 : 0,
                             opacity: (isScrolled && !isFooterProfileVisible) ? 1 : 0,
                             width: (isScrolled && !isFooterProfileVisible) ? 1 : 0
                         }}
                         transition={{ duration: 0.3 }}
-                        className="bg-white/20 rounded-full"
+                        className="bg-white/10"
                     />
 
-                    {/* Label Container - Now using glass-pill class */}
+                    {/* Label Container - Collapses on Non-Home Pages until scroll */}
                     <motion.div
                         layout
-                        initial={!isHome ? { width: 0, opacity: 0, x: -10 } : { width: "auto", opacity: 1, x: 0 }}
+                        initial={!isHome ? { width: 0, opacity: 0, x: -20 } : { width: "auto", opacity: 1, x: 0 }}
                         animate={!isHome ? {
                             width: isScrolled ? "auto" : 0,
                             opacity: isScrolled ? 1 : 0,
-                            x: isScrolled ? 0 : -10,
-                            paddingLeft: isScrolled ? 12 : 0
+                            x: isScrolled ? 0 : -20, // Slide in from left
+                            paddingLeft: isScrolled ? 16 : 0
                         } : {
                             width: "auto",
                             opacity: 1,
                             x: 0,
-                            paddingLeft: isScrolled ? 12 : 0
+                            paddingLeft: isScrolled ? 16 : 0
                         }}
-                        transition={IOS_SPRING}
-                        // Upgraded to glass-pill for consistent liquid glass look
-                        // Added min-height to match the look
-                        className={`hidden md:flex items-center gap-3 py-2 rounded-full overflow-hidden ${isScrolled ? "glass-pill px-5 shadow-xl" : ""}`}
+                        transition={{
+                            ...LIQUID_SPRING,
+                            opacity: { duration: 0.4 }, // Faster fade
+                            width: { ...LIQUID_SPRING, stiffness: 100 } // Slightly looser width to avoid snap
+                        }}
+                        className={`hidden md:flex items-center gap-3 py-1.5 rounded-xl overflow-hidden ${isScrolled ? "bg-black/20 backdrop-blur-md" : ""}`}
                     >
-                        <div className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,1)]"></span>
+                        <div className="relative flex h-2 w-2 items-center justify-center shrink-0">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></span>
                         </div>
-                        <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/70 font-sans whitespace-nowrap min-w-[120px]">
-                            <span className="text-[9px] font-bold text-white/40 mb-0.5 tracking-[0.2em]">Status</span>
-                            <div className="relative h-[16px] overflow-hidden">
+                        <div className="flex flex-col text-[10px] mobile:text-[9px] font-medium leading-[14px] tracking-widest uppercase text-white/40 font-sans whitespace-nowrap min-w-[120px]">
+                            <span>Product Engineer</span>
+                            <div className="relative h-[14px] overflow-hidden">
                                 <AnimatePresence mode="wait">
                                     <motion.span
                                         key={isScrolled ? "name" : "tagline"}
@@ -235,9 +236,9 @@ export function Header() {
                                         animate={{ y: 0, opacity: 1 }}
                                         exit={{ y: -20, opacity: 0 }}
                                         transition={{ duration: 0.3 }}
-                                        className="block text-white font-bold drop-shadow-md"
+                                        className="block text-sky-500/80 drop-shadow-[0_0_10px_rgba(14,165,233,0.3)]"
                                     >
-                                        {isScrolled ? "Onkar Yaglewad" : "Future Architect"}
+                                        {isScrolled ? "Onkar Yaglewad" : "Building The Future"}
                                     </motion.span>
                                 </AnimatePresence>
                             </div>
@@ -245,44 +246,40 @@ export function Header() {
                     </motion.div>
                 </motion.div>
 
-                {/* Middle: LIQUID GLASS PILL */}
+                {/* Middle: Liquid Glass Pill (Centers on Scroll) */}
                 <motion.div
                     layout
                     className={cn(
                         "relative hidden md:flex items-center pointer-events-auto",
                         isScrolled ? "justify-self-end" : "justify-self-center"
                     )}
-                    initial={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    transition={{ ...IOS_SPRING, delay: 0.2 }}
-                    style={{ zIndex: 100 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={LIQUID_SPRING}
                 >
+                    {/* Visual Glass Pill Container - Allows Dropdown Overflow */}
                     <div
                         onMouseMove={handleMouseMove}
                         onMouseLeave={handleMouseLeave}
                         className="relative group/pill"
                     >
-                        {/* Glass Background - Hardcoded Inline Styles to Force Render */}
+                        {/* Clipped Background & Border Layer */}
                         <motion.div
                             ref={ref}
+                            whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
                             transition={IOS_SPRING}
-                            className="absolute inset-0 rounded-full border border-white/10 overflow-hidden transition-all duration-300 shadow-2xl"
-                            style={{
-                                backgroundColor: "rgba(10, 10, 10, 0.25)", // Lighter (half of 0.5)
-                                backdropFilter: "blur(40px) saturate(250%)", // Boosted saturation for "liquid" look
-                                WebkitBackdropFilter: "blur(40px) saturate(250%)",
-                                transform: "translate3d(0,0,0)",
-                            }}
-                        />
+                            className="absolute inset-0 rounded-full bg-white/[0.01] border border-white/[0.05] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] backdrop-blur-3xl backdrop-saturate-150 ring-1 ring-white/[0.02] hover:ring-white/[0.05] overflow-hidden transition-all duration-500"
+                        >
+                            {/* Spotlight Effect Layer */}
+                            <motion.div
+                                className="absolute inset-0 pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-500"
+                                style={{ background: spotlightBackground }}
+                            />
+                        </motion.div>
 
-                        {/* Dynamic Spotlight */}
-                        <motion.div
-                            className="absolute inset-0 rounded-full pointer-events-none opacity-0 group-hover/pill:opacity-100 transition-opacity duration-300 mix-blend-overlay"
-                            style={{ background: spotlightBackground }}
-                        />
-
-                        {/* Content */}
+                        {/* Content Container (On top of background) */}
                         <div className="relative flex items-center p-1.5 z-10">
+                            {/* Navigation Links */}
                             <nav className="flex items-center relative pl-1">
                                 {navItems.map((item) => (
                                     <NavItem
@@ -294,26 +291,29 @@ export function Header() {
                                 ))}
                             </nav>
 
-                            <div className="mx-3 h-5 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+                            {/* Divider */}
+                            <div className="mx-4 h-5 w-[1px] bg-white/10 z-10" />
 
+                            {/* Mail / Contact */}
                             <motion.button
-                                whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.15)" }}
-                                whileTap={{ scale: 0.9 }}
+                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                                whileTap={{ scale: 0.95 }}
                                 transition={IOS_SPRING}
-                                className="p-3 rounded-full text-white/70 hover:text-white relative group"
+                                className="p-3 rounded-full text-white/50 hover:text-white relative group z-10"
                             >
-                                <Mail className="w-4 h-4 drop-shadow-sm" />
+                                <Mail className="w-4 h-4" />
                             </motion.button>
 
+                            {/* Book a Call Button */}
                             <motion.div
-                                className="pl-1"
+                                className="z-10"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 transition={IOS_SPRING}
                             >
                                 <Link
                                     href="/book-a-call"
-                                    className="relative block overflow-hidden rounded-full bg-white px-5 py-2.5 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] text-sm font-bold text-black hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.8)] transition-shadow duration-300"
+                                    className="ml-2 relative block overflow-hidden rounded-full bg-white px-6 py-2.5 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] text-sm font-bold text-black"
                                 >
                                     Book a Call
                                 </Link>
@@ -322,21 +322,21 @@ export function Header() {
                     </div>
                 </motion.div>
 
-                {/* Right: Command Button */}
+                {/* Right: Command Button (Stays Right) */}
                 <motion.div
                     className="justify-self-end pointer-events-auto"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                 >
                     <motion.button
                         onClick={() => setOpen(true)}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         transition={IOS_SPRING}
-                        className="flex h-12 w-12 items-center justify-center rounded-full glass-pill text-white/70 hover:text-white hover:bg-white/10 group transition-all duration-300"
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-white/[0.01] border border-white/[0.05] text-white/60 hover:text-white hover:bg-white/[0.05] backdrop-blur-3xl backdrop-saturate-150 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.02] hover:ring-white/[0.05] group transition-all duration-500"
                     >
-                        <Command className="w-5 h-5 drop-shadow-sm" />
+                        <Command className="w-5 h-5" />
                     </motion.button>
                 </motion.div>
             </header>
